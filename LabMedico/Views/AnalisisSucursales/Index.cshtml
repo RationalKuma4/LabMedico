@@ -1,0 +1,52 @@
+﻿@model IEnumerable<LabMedico.Models.AnalisisSucursal>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Sucursales.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AnalisisId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Costo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Estatus)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sucursales.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AnalisisId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Costo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Estatus)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.AnalisisSucursalId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.AnalisisSucursalId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.AnalisisSucursalId })
+        </td>
+    </tr>
+}
+
+</table>
