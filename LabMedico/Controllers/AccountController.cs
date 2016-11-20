@@ -18,7 +18,7 @@ namespace LabMedico.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
+        private LaboratorioDbContext db = new LaboratorioDbContext();
         public AccountController()
         {
         }
@@ -97,6 +97,7 @@ namespace LabMedico.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            ViewBag.Roles = new SelectList(db.Roles, "Id", "Name");
             return View();
         }
 
@@ -109,7 +110,11 @@ namespace LabMedico.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new LaboratorioUser { UserName = model.Email, Email = model.Email };
+                var user = new LaboratorioUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email
+                };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

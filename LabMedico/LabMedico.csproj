@@ -173,6 +173,7 @@
     <Compile Include="Controllers\AnalisisSucursalesController.cs" />
     <Compile Include="Controllers\CitasController.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
+    <Compile Include="Controllers\Constantes.cs" />
     <Compile Include="Controllers\EstudiosController.cs" />
     <Compile Include="Controllers\HistoricosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
