@@ -5,6 +5,11 @@ namespace LabMedico.ViewModels.AccountViewModels
     public class RegisterViewModel
     {
         [Required(AllowEmptyStrings = false, ErrorMessage = "No se permiten campos vacios.")]
+        [Display(Name = "Usuario")]
+        [StringLength(80, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 2)]
+        public string Usuario { get; set; }
+
+        [Required(AllowEmptyStrings = false, ErrorMessage = "No se permiten campos vacios.")]
         [Display(Name = "Nombre")]
         [StringLength(80, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 2)]
         public string Nombre { get; set; }
@@ -64,6 +69,7 @@ namespace LabMedico.ViewModels.AccountViewModels
         [Required(AllowEmptyStrings = false, ErrorMessage = "No se permiten campos vacios.")]
         [Display(Name = "Notas")]
         [StringLength(800, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 2)]
+        [DataType(DataType.MultilineText)]
         public string Notas { get; set; }
 
         [Required]
@@ -81,7 +87,7 @@ namespace LabMedico.ViewModels.AccountViewModels
         [EmailAddress]
         [Display(Name = "Correo electrónico")]
         public string Email { get; set; }
-        
+
         [Required]
         [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 6)]
         [DataType(DataType.Password)]

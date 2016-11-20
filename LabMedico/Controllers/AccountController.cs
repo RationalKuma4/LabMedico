@@ -10,6 +10,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using LabMedico.Models;
 using LabMedico.ViewModels.AccountViewModels;
+using Microsoft.AspNet.Identity.EntityFramework;
+using LabMedico.Models.CustomUser;
 
 namespace LabMedico.Controllers
 {
@@ -98,6 +100,7 @@ namespace LabMedico.Controllers
         public ActionResult Register()
         {
             ViewBag.Roles = new SelectList(db.Roles, "Id", "Name");
+            ViewBag.Sucursales = new SelectList(db.Sucursals, "SucursalId", "Nombre");
             return View();
         }
 
@@ -118,7 +121,7 @@ namespace LabMedico.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // Para obtener más información sobre cómo habilitar la confirmación de cuenta y el restablecimiento de contraseña, visite http://go.microsoft.com/fwlink/?LinkID=320771
                     // Enviar correo electrónico con este vínculo
@@ -126,6 +129,16 @@ namespace LabMedico.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirmar cuenta", "Para confirmar la cuenta, haga clic <a href=\"" + callbackUrl + "\">aquí</a>");
 
+                    var roleStore = new RoleStore<IdentityRole>(db);
+                    var roleManager = new RoleManager<IdentityRole>(roleStore);
+                    var userStore = new UserStore<LaboratorioUser, CustomRole, int, CustomUserLogin, CustomUserRole, CustomUserClaim>(db);
+                    var userManager = new UserManager<LaboratorioUser, int>(userStore);
+                    var roleName = db.Roles.ToList()
+                        .Where(r => r.Id == model.Rol)
+                        .SingleOrDefault()
+                        .Name;
+
+                    await userManager.AddToRoleAsync(user.Id, roleName);
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
