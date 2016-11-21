@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using LabMedico.Models;
 
@@ -28,6 +24,7 @@ namespace LabMedico.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Estudio estudio = db.Estudios.Find(id);
+
             if (estudio == null)
             {
                 return HttpNotFound();
@@ -38,6 +35,7 @@ namespace LabMedico.Controllers
         // GET: Estudios/Create
         public ActionResult Create()
         {
+            ViewBag.Estatus = Constantes.estatus;
             return View();
         }
 
@@ -66,6 +64,7 @@ namespace LabMedico.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Estudio estudio = db.Estudios.Find(id);
+            ViewBag.Estatus = Constantes.estatus;
             if (estudio == null)
             {
                 return HttpNotFound();
