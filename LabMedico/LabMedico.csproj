@@ -219,6 +219,7 @@
     <Compile Include="ViewModels\ManageViewModels\IndexViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels\ManageLoginsViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels\SetPasswordViewModel.cs" />
+    <Compile Include="ViewModels\SucursalViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />

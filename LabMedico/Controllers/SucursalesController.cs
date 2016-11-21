@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using LabMedico.Models;
+using LabMedico.ViewModels;
 
 namespace LabMedico.Controllers
 {
@@ -17,7 +15,8 @@ namespace LabMedico.Controllers
         // GET: Sucursales
         public ActionResult Index()
         {
-            return View(db.Sucursals.ToList());
+            //return View(db.Sucursals.ToList());
+            return View(SucursalesResulset());
         }
 
         // GET: Sucursales/Details/5
@@ -38,6 +37,8 @@ namespace LabMedico.Controllers
         // GET: Sucursales/Create
         public ActionResult Create()
         {
+            ViewBag.Estatus = Constantes.estatus;
+            ViewBag.Zonas = new SelectList(db.Zonas, "ZonaId", "ZonaNombre");
             return View();
         }
 
@@ -66,6 +67,8 @@ namespace LabMedico.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Sucursal sucursal = db.Sucursals.Find(id);
+            ViewBag.Zonas = new SelectList(db.Zonas, "ZonaId", "ZonaNombre", sucursal.ZonaId);
+            ViewBag.Estatus = Constantes.estatus;
             if (sucursal == null)
             {
                 return HttpNotFound();
@@ -122,6 +125,45 @@ namespace LabMedico.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private List<SucursalViewModel> SucursalesResulset()
+        {
+            var result =
+                from s in db.Sucursals
+                join z in db.Zonas on s.ZonaId equals z.ZonaId
+                into resulSet
+                from r in resulSet.DefaultIfEmpty()
+                select new
+                {
+                    SucursalId = s.SucursalId,
+                    Nombre = s.Nombre,
+                    DelegacionMunicipio = s.DelegacionMunicipio,
+                    CodigoPostal = s.CodigoPostal,
+                    Telefono = s.Telefono,
+                    Horario = s.Horario,
+                    ZonaNombre = r.ZonaNombre
+                };
+
+            List<SucursalViewModel> sucursales = new List<SucursalViewModel>();
+
+            foreach (var item in result.ToList())
+            {
+                var sucursal = new SucursalViewModel
+                {
+                    SucursalId = item.SucursalId,
+                    Nombre = item.Nombre,
+                    DelegacionMunicipio = item.DelegacionMunicipio,
+                    CodigoPostal = item.CodigoPostal,
+                    Telefono = item.Telefono,
+                    Horario = item.Horario,
+                    ZonaNombre = item.ZonaNombre
+                };
+
+                sucursales.Add(sucursal);
+            }
+
+            return sucursales;
         }
     }
 }
