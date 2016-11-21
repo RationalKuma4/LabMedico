@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using LabMedico.Models;
 
@@ -41,6 +37,7 @@ namespace LabMedico.Controllers
         {
             ViewBag.AnalisisId = new SelectList(db.Analisis, "AnalisisId", "Nombre");
             ViewBag.SucursalId = new SelectList(db.Sucursals, "SucursalId", "Nombre");
+            ViewBag.Estatus = Constantes.estatus;
             return View();
         }
 
@@ -77,6 +74,7 @@ namespace LabMedico.Controllers
             }
             ViewBag.AnalisisId = new SelectList(db.Analisis, "AnalisisId", "Nombre", analisisSucursal.AnalisisId);
             ViewBag.SucursalId = new SelectList(db.Sucursals, "SucursalId", "Nombre", analisisSucursal.SucursalId);
+            ViewBag.Estatus = Constantes.estatus;
             return View(analisisSucursal);
         }
 

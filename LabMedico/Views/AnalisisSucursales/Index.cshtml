@@ -10,7 +10,7 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
+<table class="table table-striped">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Analisis.Nombre)
@@ -27,26 +27,27 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Analisis.Nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Sucursales.Nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Costo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Estatus)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.AnalisisSucursalId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.AnalisisSucursalId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.AnalisisSucursalId })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Analisis.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sucursales.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Costo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estatus)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.AnalisisSucursalId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.AnalisisSucursalId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.AnalisisSucursalId })
+            </td>
+        </tr>
+    }
 
 </table>
