@@ -101,7 +101,7 @@ namespace LabMedico.Controllers
         public ActionResult Register()
         {
             ViewBag.Roles = new SelectList(db.Roles, "Id", "Name");
-            ViewBag.Sucursales = new SelectList(db.Sucursals, "SucursalId", "Nombre");
+            //ViewBag.Sucursales = new SelectList(db.Sucursals, "SucursalId", "Nombre");
             return View();
         }
 

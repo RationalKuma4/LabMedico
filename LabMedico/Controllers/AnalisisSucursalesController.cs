@@ -17,7 +17,7 @@ namespace LabMedico.Controllers
         // GET: AnalisisSucursales
         public ActionResult Index()
         {
-            var analisisSucursals = db.AnalisisSucursals.Include(a => a.Sucursales);
+            var analisisSucursals = db.AnalisisSucursals.Include(a => a.Analisis).Include(a => a.Sucursales);
             return View(analisisSucursals.ToList());
         }
 
@@ -39,6 +39,7 @@ namespace LabMedico.Controllers
         // GET: AnalisisSucursales/Create
         public ActionResult Create()
         {
+            ViewBag.AnalisisId = new SelectList(db.Analisis, "AnalisisId", "Nombre");
             ViewBag.SucursalId = new SelectList(db.Sucursals, "SucursalId", "Nombre");
             return View();
         }
@@ -57,6 +58,7 @@ namespace LabMedico.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.AnalisisId = new SelectList(db.Analisis, "AnalisisId", "Nombre", analisisSucursal.AnalisisId);
             ViewBag.SucursalId = new SelectList(db.Sucursals, "SucursalId", "Nombre", analisisSucursal.SucursalId);
             return View(analisisSucursal);
         }
@@ -73,6 +75,7 @@ namespace LabMedico.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.AnalisisId = new SelectList(db.Analisis, "AnalisisId", "Nombre", analisisSucursal.AnalisisId);
             ViewBag.SucursalId = new SelectList(db.Sucursals, "SucursalId", "Nombre", analisisSucursal.SucursalId);
             return View(analisisSucursal);
         }
@@ -90,6 +93,7 @@ namespace LabMedico.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.AnalisisId = new SelectList(db.Analisis, "AnalisisId", "Nombre", analisisSucursal.AnalisisId);
             ViewBag.SucursalId = new SelectList(db.Sucursals, "SucursalId", "Nombre", analisisSucursal.SucursalId);
             return View(analisisSucursal);
         }

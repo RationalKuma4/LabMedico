@@ -7,13 +7,13 @@ namespace LabMedico.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class SixthCommit : IMigrationMetadata
+    public sealed partial class Migration_0 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(SixthCommit));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Migration_0));
         
         string IMigrationMetadata.Id
         {
-            get { return "201611160435010_SixthCommit"; }
+            get { return "201611212123410_Migration_0"; }
         }
         
         string IMigrationMetadata.Source

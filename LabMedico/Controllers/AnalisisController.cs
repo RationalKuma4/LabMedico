@@ -17,7 +17,8 @@ namespace LabMedico.Controllers
         // GET: Analisis
         public ActionResult Index()
         {
-            return View(db.Analisis.ToList());
+            var analisis = db.Analisis.Include(a => a.Estudios);
+            return View(analisis.ToList());
         }
 
         // GET: Analisis/Details/5
@@ -39,7 +40,6 @@ namespace LabMedico.Controllers
         public ActionResult Create()
         {
             ViewBag.EstudioId = new SelectList(db.Estudios, "EstudioId", "Nombre");
-            ViewBag.Estatus = Constantes.estatus;
             return View();
         }
 
@@ -48,7 +48,7 @@ namespace LabMedico.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ServicioId,Nombre,Descripcion,Requisitos,Estatus,CategoriaId")] Analisis analisis)
+        public ActionResult Create([Bind(Include = "AnalisisId,Nombre,Descripcion,Requisitos,Estatus,EstudioId")] Analisis analisis)
         {
             if (ModelState.IsValid)
             {
@@ -57,6 +57,7 @@ namespace LabMedico.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.EstudioId = new SelectList(db.Estudios, "EstudioId", "Nombre", analisis.EstudioId);
             return View(analisis);
         }
 
@@ -68,12 +69,11 @@ namespace LabMedico.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Analisis analisis = db.Analisis.Find(id);
-            ViewBag.Estatus = Constantes.estatus;
-            ViewBag.EstudioId = new SelectList(db.Estudios, "EstudioId", "Nombre", analisis.CategoriaId);
             if (analisis == null)
             {
                 return HttpNotFound();
             }
+            ViewBag.EstudioId = new SelectList(db.Estudios, "EstudioId", "Nombre", analisis.EstudioId);
             return View(analisis);
         }
 
@@ -82,7 +82,7 @@ namespace LabMedico.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ServicioId,Nombre,Descripcion,Requisitos,Estatus,CategoriaId")] Analisis analisis)
+        public ActionResult Edit([Bind(Include = "AnalisisId,Nombre,Descripcion,Requisitos,Estatus,EstudioId")] Analisis analisis)
         {
             if (ModelState.IsValid)
             {
@@ -90,6 +90,7 @@ namespace LabMedico.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.EstudioId = new SelectList(db.Estudios, "EstudioId", "Nombre", analisis.EstudioId);
             return View(analisis);
         }
 

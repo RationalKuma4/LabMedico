@@ -10,120 +10,112 @@ using LabMedico.Models;
 
 namespace LabMedico.Controllers
 {
-    public class CitasController : Controller
+    public class TecnicoCitasController : Controller
     {
         private LaboratorioDbContext db = new LaboratorioDbContext();
 
-        // GET: Citas
+        // GET: TecnicoCitas
         public ActionResult Index()
         {
-            var citas = db.Citas.Include(c => c.Analisis).Include(c => c.Clientes).Include(c => c.Usuarios);
-            return View(citas.ToList());
+            var tecnicoCitas = db.TecnicoCitas.Include(t => t.Tecnico);
+            return View(tecnicoCitas.ToList());
         }
 
-        // GET: Citas/Details/5
+        // GET: TecnicoCitas/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Cita cita = db.Citas.Find(id);
-            if (cita == null)
+            TecnicoCitas tecnicoCitas = db.TecnicoCitas.Find(id);
+            if (tecnicoCitas == null)
             {
                 return HttpNotFound();
             }
-            return View(cita);
+            return View(tecnicoCitas);
         }
 
-        // GET: Citas/Create
+        // GET: TecnicoCitas/Create
         public ActionResult Create()
         {
-            ViewBag.AnalisisId = new SelectList(db.Analisis, "AnalisisId", "Nombre");
-            ViewBag.ClienteId = new SelectList(db.Clientes, "ClienteId", "Nombre");
-            //ViewBag.Id = new SelectList(db.LaboratorioUsers, "Id", "Usuario");
+            ViewBag.TecnicoId = new SelectList(db.Tecnicoes, "TecnicoId", "Nombre");
             return View();
         }
 
-        // POST: Citas/Create
+        // POST: TecnicoCitas/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CitaId,FechaRegistro,FechaEntrega,FechaAplicacion,HoraAplicacion,Id,ClienteId,AnalisisId,Estatus,Monto")] Cita cita)
+        public ActionResult Create([Bind(Include = "TecnicoCitasId,TecnicoId,CitaId")] TecnicoCitas tecnicoCitas)
         {
             if (ModelState.IsValid)
             {
-                db.Citas.Add(cita);
+                db.TecnicoCitas.Add(tecnicoCitas);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.AnalisisId = new SelectList(db.Analisis, "AnalisisId", "Nombre", cita.AnalisisId);
-            ViewBag.ClienteId = new SelectList(db.Clientes, "ClienteId", "Nombre", cita.ClienteId);
-            //ViewBag.Id = new SelectList(db.LaboratorioUsers, "Id", "Usuario", cita.Id);
-            return View(cita);
+            ViewBag.TecnicoId = new SelectList(db.Tecnicoes, "TecnicoId", "Nombre", tecnicoCitas.TecnicoId);
+            return View(tecnicoCitas);
         }
 
-        // GET: Citas/Edit/5
+        // GET: TecnicoCitas/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Cita cita = db.Citas.Find(id);
-            if (cita == null)
+            TecnicoCitas tecnicoCitas = db.TecnicoCitas.Find(id);
+            if (tecnicoCitas == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.AnalisisId = new SelectList(db.Analisis, "AnalisisId", "Nombre", cita.AnalisisId);
-            ViewBag.ClienteId = new SelectList(db.Clientes, "ClienteId", "Nombre", cita.ClienteId);
-            //ViewBag.Id = new SelectList(db.LaboratorioUsers, "Id", "Usuario", cita.Id);
-            return View(cita);
+            ViewBag.TecnicoId = new SelectList(db.Tecnicoes, "TecnicoId", "Nombre", tecnicoCitas.TecnicoId);
+            return View(tecnicoCitas);
         }
 
-        // POST: Citas/Edit/5
+        // POST: TecnicoCitas/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CitaId,FechaRegistro,FechaEntrega,FechaAplicacion,HoraAplicacion,Id,ClienteId,AnalisisId,Estatus,Monto")] Cita cita)
+        public ActionResult Edit([Bind(Include = "TecnicoCitasId,TecnicoId,CitaId")] TecnicoCitas tecnicoCitas)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(cita).State = EntityState.Modified;
+                db.Entry(tecnicoCitas).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.AnalisisId = new SelectList(db.Analisis, "AnalisisId", "Nombre", cita.AnalisisId);
-            ViewBag.ClienteId = new SelectList(db.Clientes, "ClienteId", "Nombre", cita.ClienteId);
-            //ViewBag.Id = new SelectList(db.LaboratorioUsers, "Id", "Usuario", cita.Id);
-            return View(cita);
+            ViewBag.TecnicoId = new SelectList(db.Tecnicoes, "TecnicoId", "Nombre", tecnicoCitas.TecnicoId);
+            return View(tecnicoCitas);
         }
 
-        // GET: Citas/Delete/5
+        // GET: TecnicoCitas/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Cita cita = db.Citas.Find(id);
-            if (cita == null)
+            TecnicoCitas tecnicoCitas = db.TecnicoCitas.Find(id);
+            if (tecnicoCitas == null)
             {
                 return HttpNotFound();
             }
-            return View(cita);
+            return View(tecnicoCitas);
         }
 
-        // POST: Citas/Delete/5
+        // POST: TecnicoCitas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Cita cita = db.Citas.Find(id);
-            db.Citas.Remove(cita);
+            TecnicoCitas tecnicoCitas = db.TecnicoCitas.Find(id);
+            db.TecnicoCitas.Remove(tecnicoCitas);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

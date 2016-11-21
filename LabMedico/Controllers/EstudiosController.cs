@@ -38,7 +38,6 @@ namespace LabMedico.Controllers
         // GET: Estudios/Create
         public ActionResult Create()
         {
-            ViewBag.Estatus = Constantes.estatus;
             return View();
         }
 
@@ -67,7 +66,6 @@ namespace LabMedico.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Estudio estudio = db.Estudios.Find(id);
-            ViewBag.Estatus = Constantes.estatus;
             if (estudio == null)
             {
                 return HttpNotFound();

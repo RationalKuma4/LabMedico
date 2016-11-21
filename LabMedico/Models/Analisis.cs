@@ -12,7 +12,7 @@ namespace LabMedico.Models
         }
 
         [Key]
-        public int ServicioId { get; set; }
+        public int AnalisisId { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "No se permiten campos vacios.")]
         [Display(Name = "Nombre de Analisis")]
@@ -40,7 +40,7 @@ namespace LabMedico.Models
 
         [Required]
         [Display(Name = "Tipo de estudio")]
-        public int CategoriaId { get; set; }
+        public int EstudioId { get; set; }
 
         public virtual Estudio Estudios { get; set; }
         public virtual ICollection<AnalisisSucursal> AnalisisSucursal { get; set; }

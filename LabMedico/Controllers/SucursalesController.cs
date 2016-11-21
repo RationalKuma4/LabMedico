@@ -38,7 +38,6 @@ namespace LabMedico.Controllers
         // GET: Sucursales/Create
         public ActionResult Create()
         {
-            ViewBag.Zonas = new SelectList(db.Zonas, "ZonaId", "ZonaNombre");
             return View();
         }
 
@@ -67,7 +66,6 @@ namespace LabMedico.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Sucursal sucursal = db.Sucursals.Find(id);
-            ViewBag.Zonas = new SelectList(db.Zonas, "ZonaId", "ZonaNombre", sucursal.ZonaId);
             if (sucursal == null)
             {
                 return HttpNotFound();

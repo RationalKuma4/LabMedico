@@ -34,17 +34,13 @@ namespace LabMedico.Models
 
         [Required]
         [ScaffoldColumn(false)]
-        public int UsuarioId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public int ClienteId { get; set; }
 
         [Required]
         public int AnalisisId { get; set; }
-
-        [Required]
-        [ScaffoldColumn(false)]
-        public int TecnicoId { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "No se permiten campos vacios.")]
         [Display(Name = "Estatus")]
@@ -60,9 +56,7 @@ namespace LabMedico.Models
 
         public virtual Analisis Analisis { get; set; }
         public virtual Cliente Clientes { get; set; }
-        public virtual Tecnico Tecnicos { get; set; }
         public virtual LaboratorioUser Usuarios { get; set; }
-
         public virtual ICollection<Historico> Historicos { get; set; }
     }
 }

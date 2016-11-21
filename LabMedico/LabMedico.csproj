@@ -179,54 +179,15 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SucursalesController.cs" />
+    <Compile Include="Controllers\TecnicoCitasController.cs" />
     <Compile Include="Controllers\TecnicosController.cs" />
     <Compile Include="Controllers\ZonasController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201611152348014_PrimerCommit.cs" />
-    <Compile Include="Migrations\201611152348014_PrimerCommit.Designer.cs">
-      <DependentUpon>201611152348014_PrimerCommit.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611160315081_SecondCommit.cs" />
-    <Compile Include="Migrations\201611160315081_SecondCommit.Designer.cs">
-      <DependentUpon>201611160315081_SecondCommit.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611160415053_ThirdCommit.cs" />
-    <Compile Include="Migrations\201611160415053_ThirdCommit.Designer.cs">
-      <DependentUpon>201611160415053_ThirdCommit.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611160428312_ForthCommit.cs" />
-    <Compile Include="Migrations\201611160428312_ForthCommit.Designer.cs">
-      <DependentUpon>201611160428312_ForthCommit.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611160431319_FithCommit.cs" />
-    <Compile Include="Migrations\201611160431319_FithCommit.Designer.cs">
-      <DependentUpon>201611160431319_FithCommit.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611160435010_SixthCommit.cs" />
-    <Compile Include="Migrations\201611160435010_SixthCommit.Designer.cs">
-      <DependentUpon>201611160435010_SixthCommit.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611160505494_SevenCommit.cs" />
-    <Compile Include="Migrations\201611160505494_SevenCommit.Designer.cs">
-      <DependentUpon>201611160505494_SevenCommit.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611172049062_EightCommit.cs" />
-    <Compile Include="Migrations\201611172049062_EightCommit.Designer.cs">
-      <DependentUpon>201611172049062_EightCommit.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611172054213_NineCommit.cs" />
-    <Compile Include="Migrations\201611172054213_NineCommit.Designer.cs">
-      <DependentUpon>201611172054213_NineCommit.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611172110478_TenCommit.cs" />
-    <Compile Include="Migrations\201611172110478_TenCommit.Designer.cs">
-      <DependentUpon>201611172110478_TenCommit.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611172115560_ElevenCommit.cs" />
-    <Compile Include="Migrations\201611172115560_ElevenCommit.Designer.cs">
-      <DependentUpon>201611172115560_ElevenCommit.cs</DependentUpon>
+    <Compile Include="Migrations\201611212123410_Migration_0.cs" />
+    <Compile Include="Migrations\201611212123410_Migration_0.Designer.cs">
+      <DependentUpon>201611212123410_Migration_0.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Analisis.cs" />
@@ -245,6 +206,7 @@
     <Compile Include="Models\LaboratorioDbContext.cs" />
     <Compile Include="Models\Sucursal.cs" />
     <Compile Include="Models\Tecnico.cs" />
+    <Compile Include="Models\TecnicoCitas.cs" />
     <Compile Include="Models\Zona.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -327,36 +289,16 @@
     <Content Include="Views\Manage\SetPassword.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Estudios\Create.cshtml" />
-    <Content Include="Views\Estudios\Delete.cshtml" />
-    <Content Include="Views\Estudios\Details.cshtml" />
-    <Content Include="Views\Estudios\Edit.cshtml" />
-    <Content Include="Views\Estudios\Index.cshtml" />
     <Content Include="Views\Analisis\Create.cshtml" />
     <Content Include="Views\Analisis\Delete.cshtml" />
     <Content Include="Views\Analisis\Details.cshtml" />
     <Content Include="Views\Analisis\Edit.cshtml" />
     <Content Include="Views\Analisis\Index.cshtml" />
-    <Content Include="Views\Zonas\Create.cshtml" />
-    <Content Include="Views\Zonas\Delete.cshtml" />
-    <Content Include="Views\Zonas\Details.cshtml" />
-    <Content Include="Views\Zonas\Edit.cshtml" />
-    <Content Include="Views\Zonas\Index.cshtml" />
-    <Content Include="Views\Tecnicos\Create.cshtml" />
-    <Content Include="Views\Tecnicos\Delete.cshtml" />
-    <Content Include="Views\Tecnicos\Details.cshtml" />
-    <Content Include="Views\Tecnicos\Edit.cshtml" />
-    <Content Include="Views\Tecnicos\Index.cshtml" />
     <Content Include="Views\AnalisisSucursales\Create.cshtml" />
     <Content Include="Views\AnalisisSucursales\Delete.cshtml" />
     <Content Include="Views\AnalisisSucursales\Details.cshtml" />
     <Content Include="Views\AnalisisSucursales\Edit.cshtml" />
     <Content Include="Views\AnalisisSucursales\Index.cshtml" />
-    <Content Include="Views\Sucursales\Create.cshtml" />
-    <Content Include="Views\Sucursales\Delete.cshtml" />
-    <Content Include="Views\Sucursales\Details.cshtml" />
-    <Content Include="Views\Sucursales\Edit.cshtml" />
-    <Content Include="Views\Sucursales\Index.cshtml" />
     <Content Include="Views\Citas\Create.cshtml" />
     <Content Include="Views\Citas\Delete.cshtml" />
     <Content Include="Views\Citas\Details.cshtml" />
@@ -367,11 +309,36 @@
     <Content Include="Views\Clientes\Details.cshtml" />
     <Content Include="Views\Clientes\Edit.cshtml" />
     <Content Include="Views\Clientes\Index.cshtml" />
+    <Content Include="Views\Estudios\Create.cshtml" />
+    <Content Include="Views\Estudios\Delete.cshtml" />
+    <Content Include="Views\Estudios\Details.cshtml" />
+    <Content Include="Views\Estudios\Edit.cshtml" />
+    <Content Include="Views\Estudios\Index.cshtml" />
     <Content Include="Views\Historicos\Create.cshtml" />
     <Content Include="Views\Historicos\Delete.cshtml" />
     <Content Include="Views\Historicos\Details.cshtml" />
     <Content Include="Views\Historicos\Edit.cshtml" />
     <Content Include="Views\Historicos\Index.cshtml" />
+    <Content Include="Views\Sucursales\Create.cshtml" />
+    <Content Include="Views\Sucursales\Delete.cshtml" />
+    <Content Include="Views\Sucursales\Details.cshtml" />
+    <Content Include="Views\Sucursales\Edit.cshtml" />
+    <Content Include="Views\Sucursales\Index.cshtml" />
+    <Content Include="Views\Tecnicos\Create.cshtml" />
+    <Content Include="Views\Tecnicos\Delete.cshtml" />
+    <Content Include="Views\Tecnicos\Details.cshtml" />
+    <Content Include="Views\Tecnicos\Edit.cshtml" />
+    <Content Include="Views\Tecnicos\Index.cshtml" />
+    <Content Include="Views\TecnicoCitas\Create.cshtml" />
+    <Content Include="Views\TecnicoCitas\Delete.cshtml" />
+    <Content Include="Views\TecnicoCitas\Details.cshtml" />
+    <Content Include="Views\TecnicoCitas\Edit.cshtml" />
+    <Content Include="Views\TecnicoCitas\Index.cshtml" />
+    <Content Include="Views\Zonas\Create.cshtml" />
+    <Content Include="Views\Zonas\Delete.cshtml" />
+    <Content Include="Views\Zonas\Details.cshtml" />
+    <Content Include="Views\Zonas\Edit.cshtml" />
+    <Content Include="Views\Zonas\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -383,38 +350,8 @@
     <Content Include="Scripts\jquery-3.1.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201611152348014_PrimerCommit.resx">
-      <DependentUpon>201611152348014_PrimerCommit.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611160315081_SecondCommit.resx">
-      <DependentUpon>201611160315081_SecondCommit.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611160415053_ThirdCommit.resx">
-      <DependentUpon>201611160415053_ThirdCommit.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611160428312_ForthCommit.resx">
-      <DependentUpon>201611160428312_ForthCommit.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611160431319_FithCommit.resx">
-      <DependentUpon>201611160431319_FithCommit.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611160435010_SixthCommit.resx">
-      <DependentUpon>201611160435010_SixthCommit.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611160505494_SevenCommit.resx">
-      <DependentUpon>201611160505494_SevenCommit.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611172049062_EightCommit.resx">
-      <DependentUpon>201611172049062_EightCommit.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611172054213_NineCommit.resx">
-      <DependentUpon>201611172054213_NineCommit.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611172110478_TenCommit.resx">
-      <DependentUpon>201611172110478_TenCommit.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611172115560_ElevenCommit.resx">
-      <DependentUpon>201611172115560_ElevenCommit.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201611212123410_Migration_0.resx">
+      <DependentUpon>201611212123410_Migration_0.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
