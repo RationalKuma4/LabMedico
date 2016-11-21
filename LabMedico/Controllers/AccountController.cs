@@ -12,6 +12,7 @@ using LabMedico.Models;
 using LabMedico.ViewModels.AccountViewModels;
 using Microsoft.AspNet.Identity.EntityFramework;
 using LabMedico.Models.CustomUser;
+using System.Net;
 
 namespace LabMedico.Controllers
 {
@@ -133,8 +134,9 @@ namespace LabMedico.Controllers
                     var roleManager = new RoleManager<IdentityRole>(roleStore);
                     var userStore = new UserStore<LaboratorioUser, CustomRole, int, CustomUserLogin, CustomUserRole, CustomUserClaim>(db);
                     var userManager = new UserManager<LaboratorioUser, int>(userStore);
-                    var roleName = db.Roles.ToList()
+                    var roleName = db.Roles
                         .Where(r => r.Id == model.Rol)
+                        .ToList()
                         .SingleOrDefault()
                         .Name;
 

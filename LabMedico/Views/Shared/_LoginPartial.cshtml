@@ -9,9 +9,6 @@
 
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    @Html.ActionLink("Hola " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-                </li>
-                <li>
                     @Html.ActionLink("Estudios", "Index", "Estudios", routeValues: null, htmlAttributes: new { title = "Manage" })
                 </li>
                 <li>
@@ -19,6 +16,18 @@
                 </li>
                 <li>
                     @Html.ActionLink("Registrar Usuarios", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
+                </li>
+                <li>
+                    @Html.ActionLink("Sucursales", "Index", "Sucursales", routeValues: null, htmlAttributes: new { title = "Manage" })
+                </li>
+                <li>
+                    @Html.ActionLink("Zonas", "Index", "Zonas", routeValues: null, htmlAttributes: new { title = "Manage" })
+                </li>
+                <li>
+                    @Html.ActionLink("Tecnicos", "Index", "Tecnicos", routeValues: null, htmlAttributes: new { title = "Manage" })
+                </li>
+                <li>
+                    @Html.ActionLink("Hola " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
                 </li>
                 <li><a href="javascript:document.getElementById('logoutForm').submit()">Cerrar sesión</a></li>
             </ul>
@@ -32,13 +41,16 @@
 
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    @Html.ActionLink("Hola " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-                </li>
-                <li>
                     @Html.ActionLink("Clientes", "Index", "Clientes", routeValues: null, htmlAttributes: new { title = "Manage" })
                 </li>
                 <li>
                     @Html.ActionLink("Citas", "Index", "Citas", routeValues: null, htmlAttributes: new { title = "Manage" })
+                </li>
+                <li>
+                    @Html.ActionLink("Citas Pendientes", "Index", "Citas", routeValues: null, htmlAttributes: new { title = "Manage" })
+                </li>
+                <li>
+                    @Html.ActionLink("Hola " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
                 </li>
                 <li><a href="javascript:document.getElementById('logoutForm').submit()">Cerrar sesión</a></li>
             </ul>

@@ -48,7 +48,7 @@ namespace LabMedico.ViewModels.AccountViewModels
         public string DelegacionMunicipio { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "No se permiten campos vacios.")]
-        [Display(Name = "Colonia")]
+        [Display(Name = "Codigo Postal")]
         [DataType(DataType.PostalCode)]
         public int? CodigoPostal { get; set; }
 
