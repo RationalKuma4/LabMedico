@@ -40,6 +40,7 @@ namespace LabMedico.Controllers
         public ActionResult Create()
         {
             ViewBag.EstudioId = new SelectList(db.Estudios, "EstudioId", "Nombre");
+            ViewBag.Estatus = Constantes.estatus;
             return View();
         }
 
@@ -74,6 +75,7 @@ namespace LabMedico.Controllers
                 return HttpNotFound();
             }
             ViewBag.EstudioId = new SelectList(db.Estudios, "EstudioId", "Nombre", analisis.EstudioId);
+            ViewBag.Estatus = Constantes.estatus;
             return View(analisis);
         }
 
