@@ -41,6 +41,7 @@ namespace LabMedico.Controllers
         {
             ViewBag.EstudioId = new SelectList(db.Estudios, "EstudioId", "Nombre");
             ViewBag.SucursalId = new SelectList(db.Sucursals, "SucursalId", "Nombre");
+            ViewBag.Estatus = Constantes.estatus;
             return View();
         }
 
@@ -77,6 +78,7 @@ namespace LabMedico.Controllers
             }
             ViewBag.EstudioId = new SelectList(db.Estudios, "EstudioId", "Nombre", tecnico.EstudioId);
             ViewBag.SucursalId = new SelectList(db.Sucursals, "SucursalId", "Nombre", tecnico.SucursalId);
+            ViewBag.Estatus = Constantes.estatus;
             return View(tecnico);
         }
 
