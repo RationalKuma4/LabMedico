@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<LabMedico.Models.AnalisisSucursal>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Analisis Sucursal";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Registrar", "Create")
 </p>
 <table class="table table-striped">
     <tr>
@@ -21,9 +21,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Costo)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Estatus)
-        </th>
+        @*<th>
+                @Html.DisplayNameFor(model => model.Estatus)
+            </th>*@
         <th></th>
     </tr>
 
@@ -39,13 +39,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Costo)
             </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.Estatus)
+                </td>*@
             <td>
-                @Html.DisplayFor(modelItem => item.Estatus)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.AnalisisSucursalId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.AnalisisSucursalId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.AnalisisSucursalId })
+                @Html.ActionLink("Editar", "Edit", new { id = item.AnalisisSucursalId }) |
+                @Html.ActionLink("Detalles", "Details", new { id = item.AnalisisSucursalId }) |
+                @Html.ActionLink("Borrar", "Delete", new { id = item.AnalisisSucursalId })
             </td>
         </tr>
     }

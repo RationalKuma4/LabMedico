@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<LabMedico.Models.Estudio>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Estudios";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Registrar", "Create")
 </p>
 <table class="table table-striped">
     <tr>
@@ -37,9 +37,9 @@
                     @Html.DisplayFor(modelItem => item.Estatus)
                 </td>*@
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.EstudioId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.EstudioId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.EstudioId })
+                @Html.ActionLink("Editar", "Edit", new { id = item.EstudioId }) |
+                @Html.ActionLink("Detalles", "Details", new { id = item.EstudioId }) |
+                @Html.ActionLink("Borrar", "Delete", new { id = item.EstudioId })
             </td>
         </tr>
     }

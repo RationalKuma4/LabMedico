@@ -1,16 +1,16 @@
 ﻿@model IEnumerable<LabMedico.Models.Cita>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Citas";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Registrar", "Create")
 </p>
-<table class="table">
+<table class="table table-striped">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Analisis.Nombre)
@@ -54,9 +54,9 @@
             @Html.DisplayFor(modelItem => item.Estatus)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CitaId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CitaId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CitaId })
+            @Html.ActionLink("Edita", "Edit", new { id=item.CitaId }) |
+            @Html.ActionLink("Detalles", "Details", new { id=item.CitaId }) |
+            @Html.ActionLink("Borrar", "Delete", new { id=item.CitaId })
         </td>
     </tr>
 }
