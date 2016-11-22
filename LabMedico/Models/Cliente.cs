@@ -82,7 +82,6 @@ namespace LabMedico.Models
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "No se permiten campos vacios.")]
         [Display(Name = "Peso")]
-        [DataType(DataType.Currency)]
         public decimal? Peso { get; set; } = 0;
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "No se permiten campos vacios.")]
