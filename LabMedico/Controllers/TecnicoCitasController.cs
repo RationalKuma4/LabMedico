@@ -12,12 +12,17 @@ namespace LabMedico.Controllers
 {
     public class TecnicoCitasController : Controller
     {
-        private LaboratorioDbContext db = new LaboratorioDbContext();
+        //private LaboratorioDbContext _db = new LaboratorioDbContext();
+        private readonly LaboratorioDbContext _db;
+        public TecnicoCitasController(LaboratorioDbContext db)
+        {
+            _db = db;
+        }
 
         // GET: TecnicoCitas
         public ActionResult Index()
         {
-            var tecnicoCitas = db.TecnicoCitas.Include(t => t.Tecnico);
+            var tecnicoCitas = _db.TecnicoCitas.Include(t => t.Tecnico);
             return View(tecnicoCitas.ToList());
         }
 
@@ -28,7 +33,7 @@ namespace LabMedico.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TecnicoCitas tecnicoCitas = db.TecnicoCitas.Find(id);
+            TecnicoCitas tecnicoCitas = _db.TecnicoCitas.Find(id);
             if (tecnicoCitas == null)
             {
                 return HttpNotFound();
@@ -39,7 +44,7 @@ namespace LabMedico.Controllers
         // GET: TecnicoCitas/Create
         public ActionResult Create()
         {
-            ViewBag.TecnicoId = new SelectList(db.Tecnicoes, "TecnicoId", "Nombre");
+            ViewBag.TecnicoId = new SelectList(_db.Tecnicoes, "TecnicoId", "Nombre");
             ViewBag.Estatus = Constantes.estatus;
             return View();
         }
@@ -53,12 +58,12 @@ namespace LabMedico.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.TecnicoCitas.Add(tecnicoCitas);
-                db.SaveChanges();
+                _db.TecnicoCitas.Add(tecnicoCitas);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.TecnicoId = new SelectList(db.Tecnicoes, "TecnicoId", "Nombre", tecnicoCitas.TecnicoId);
+            ViewBag.TecnicoId = new SelectList(_db.Tecnicoes, "TecnicoId", "Nombre", tecnicoCitas.TecnicoId);
             return View(tecnicoCitas);
         }
 
@@ -69,13 +74,13 @@ namespace LabMedico.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TecnicoCitas tecnicoCitas = db.TecnicoCitas.Find(id);
+            TecnicoCitas tecnicoCitas = _db.TecnicoCitas.Find(id);
             if (tecnicoCitas == null)
             {
                 return HttpNotFound();
             }
             ViewBag.Estatus = Constantes.estatus;
-            ViewBag.TecnicoId = new SelectList(db.Tecnicoes, "TecnicoId", "Nombre", tecnicoCitas.TecnicoId);
+            ViewBag.TecnicoId = new SelectList(_db.Tecnicoes, "TecnicoId", "Nombre", tecnicoCitas.TecnicoId);
             return View(tecnicoCitas);
         }
 
@@ -88,11 +93,11 @@ namespace LabMedico.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(tecnicoCitas).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(tecnicoCitas).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.TecnicoId = new SelectList(db.Tecnicoes, "TecnicoId", "Nombre", tecnicoCitas.TecnicoId);
+            ViewBag.TecnicoId = new SelectList(_db.Tecnicoes, "TecnicoId", "Nombre", tecnicoCitas.TecnicoId);
             return View(tecnicoCitas);
         }
 
@@ -103,7 +108,7 @@ namespace LabMedico.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TecnicoCitas tecnicoCitas = db.TecnicoCitas.Find(id);
+            TecnicoCitas tecnicoCitas = _db.TecnicoCitas.Find(id);
             if (tecnicoCitas == null)
             {
                 return HttpNotFound();
@@ -116,9 +121,9 @@ namespace LabMedico.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            TecnicoCitas tecnicoCitas = db.TecnicoCitas.Find(id);
-            db.TecnicoCitas.Remove(tecnicoCitas);
-            db.SaveChanges();
+            TecnicoCitas tecnicoCitas = _db.TecnicoCitas.Find(id);
+            _db.TecnicoCitas.Remove(tecnicoCitas);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -126,7 +131,7 @@ namespace LabMedico.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }

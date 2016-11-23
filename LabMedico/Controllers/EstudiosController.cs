@@ -8,12 +8,17 @@ namespace LabMedico.Controllers
 {
     public class EstudiosController : Controller
     {
-        private LaboratorioDbContext db = new LaboratorioDbContext();
+        //private LaboratorioDbContext db = new LaboratorioDbContext();
+        private readonly LaboratorioDbContext _db;
+        public EstudiosController(LaboratorioDbContext db)
+        {
+            _db = db;
+        }
 
         // GET: Estudios
         public ActionResult Index()
         {
-            return View(db.Estudios.ToList());
+            return View(_db.Estudios.ToList());
         }
 
         // GET: Estudios/Details/5
@@ -23,7 +28,7 @@ namespace LabMedico.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Estudio estudio = db.Estudios.Find(id);
+            Estudio estudio = _db.Estudios.Find(id);
 
             if (estudio == null)
             {
@@ -48,8 +53,8 @@ namespace LabMedico.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Estudios.Add(estudio);
-                db.SaveChanges();
+                _db.Estudios.Add(estudio);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -63,7 +68,7 @@ namespace LabMedico.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Estudio estudio = db.Estudios.Find(id);
+            Estudio estudio = _db.Estudios.Find(id);
             ViewBag.Estatus = Constantes.estatus;
             if (estudio == null)
             {
@@ -81,8 +86,8 @@ namespace LabMedico.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(estudio).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(estudio).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(estudio);
@@ -95,7 +100,7 @@ namespace LabMedico.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Estudio estudio = db.Estudios.Find(id);
+            Estudio estudio = _db.Estudios.Find(id);
             if (estudio == null)
             {
                 return HttpNotFound();
@@ -108,9 +113,9 @@ namespace LabMedico.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Estudio estudio = db.Estudios.Find(id);
-            db.Estudios.Remove(estudio);
-            db.SaveChanges();
+            Estudio estudio = _db.Estudios.Find(id);
+            _db.Estudios.Remove(estudio);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -118,7 +123,7 @@ namespace LabMedico.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }

@@ -10,12 +10,16 @@ namespace LabMedico.Controllers
 {
     public class SucursalesController : Controller
     {
-        private LaboratorioDbContext db = new LaboratorioDbContext();
-
+        //private LaboratorioDbContext _db = new LaboratorioDbContext();
+        private readonly LaboratorioDbContext _db;
+        public SucursalesController(LaboratorioDbContext db)
+        {
+            _db = db;
+        }
         // GET: Sucursales
         public ActionResult Index()
         {
-            //return View(db.Sucursals.ToList());
+            //return View(_db.Sucursals.ToList());
             return View(SucursalesResulset());
         }
 
@@ -26,7 +30,7 @@ namespace LabMedico.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Sucursal sucursal = db.Sucursals.Find(id);
+            Sucursal sucursal = _db.Sucursals.Find(id);
             if (sucursal == null)
             {
                 return HttpNotFound();
@@ -38,7 +42,7 @@ namespace LabMedico.Controllers
         public ActionResult Create()
         {
             ViewBag.Estatus = Constantes.estatus;
-            ViewBag.Zonas = new SelectList(db.Zonas, "ZonaId", "ZonaNombre");
+            ViewBag.Zonas = new SelectList(_db.Zonas, "ZonaId", "ZonaNombre");
             return View();
         }
 
@@ -51,8 +55,8 @@ namespace LabMedico.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Sucursals.Add(sucursal);
-                db.SaveChanges();
+                _db.Sucursals.Add(sucursal);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -66,8 +70,8 @@ namespace LabMedico.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Sucursal sucursal = db.Sucursals.Find(id);
-            ViewBag.Zonas = new SelectList(db.Zonas, "ZonaId", "ZonaNombre", sucursal.ZonaId);
+            Sucursal sucursal = _db.Sucursals.Find(id);
+            ViewBag.Zonas = new SelectList(_db.Zonas, "ZonaId", "ZonaNombre", sucursal.ZonaId);
             ViewBag.Estatus = Constantes.estatus;
             if (sucursal == null)
             {
@@ -85,8 +89,8 @@ namespace LabMedico.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(sucursal).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(sucursal).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(sucursal);
@@ -99,7 +103,7 @@ namespace LabMedico.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Sucursal sucursal = db.Sucursals.Find(id);
+            Sucursal sucursal = _db.Sucursals.Find(id);
             if (sucursal == null)
             {
                 return HttpNotFound();
@@ -112,9 +116,9 @@ namespace LabMedico.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Sucursal sucursal = db.Sucursals.Find(id);
-            db.Sucursals.Remove(sucursal);
-            db.SaveChanges();
+            Sucursal sucursal = _db.Sucursals.Find(id);
+            _db.Sucursals.Remove(sucursal);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -122,7 +126,7 @@ namespace LabMedico.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -130,8 +134,8 @@ namespace LabMedico.Controllers
         private List<SucursalViewModel> SucursalesResulset()
         {
             var result =
-                from s in db.Sucursals
-                join z in db.Zonas on s.ZonaId equals z.ZonaId
+                from s in _db.Sucursals
+                join z in _db.Zonas on s.ZonaId equals z.ZonaId
                 into resulSet
                 from r in resulSet.DefaultIfEmpty()
                 select new

@@ -12,12 +12,16 @@ namespace LabMedico.Controllers
 {
     public class AnalisisController : Controller
     {
-        private LaboratorioDbContext db = new LaboratorioDbContext();
-
+        //private LaboratorioDbContext _db = new LaboratorioDbContext();
+        private readonly LaboratorioDbContext _db;
+        public AnalisisController(LaboratorioDbContext db)
+        {
+            _db = db;
+        }
         // GET: Analisis
         public ActionResult Index()
         {
-            var analisis = db.Analisis.Include(a => a.Estudios);
+            var analisis = _db.Analisis.Include(a => a.Estudios);
             return View(analisis.ToList());
         }
 
@@ -28,7 +32,7 @@ namespace LabMedico.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Analisis analisis = db.Analisis.Find(id);
+            Analisis analisis = _db.Analisis.Find(id);
             if (analisis == null)
             {
                 return HttpNotFound();
@@ -39,7 +43,7 @@ namespace LabMedico.Controllers
         // GET: Analisis/Create
         public ActionResult Create()
         {
-            ViewBag.EstudioId = new SelectList(db.Estudios, "EstudioId", "Nombre");
+            ViewBag.EstudioId = new SelectList(_db.Estudios, "EstudioId", "Nombre");
             ViewBag.Estatus = Constantes.estatus;
             return View();
         }
@@ -53,12 +57,12 @@ namespace LabMedico.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Analisis.Add(analisis);
-                db.SaveChanges();
+                _db.Analisis.Add(analisis);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.EstudioId = new SelectList(db.Estudios, "EstudioId", "Nombre", analisis.EstudioId);
+            ViewBag.EstudioId = new SelectList(_db.Estudios, "EstudioId", "Nombre", analisis.EstudioId);
             return View(analisis);
         }
 
@@ -69,12 +73,12 @@ namespace LabMedico.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Analisis analisis = db.Analisis.Find(id);
+            Analisis analisis = _db.Analisis.Find(id);
             if (analisis == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.EstudioId = new SelectList(db.Estudios, "EstudioId", "Nombre", analisis.EstudioId);
+            ViewBag.EstudioId = new SelectList(_db.Estudios, "EstudioId", "Nombre", analisis.EstudioId);
             ViewBag.Estatus = Constantes.estatus;
             return View(analisis);
         }
@@ -88,11 +92,11 @@ namespace LabMedico.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(analisis).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(analisis).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.EstudioId = new SelectList(db.Estudios, "EstudioId", "Nombre", analisis.EstudioId);
+            ViewBag.EstudioId = new SelectList(_db.Estudios, "EstudioId", "Nombre", analisis.EstudioId);
             return View(analisis);
         }
 
@@ -103,7 +107,7 @@ namespace LabMedico.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Analisis analisis = db.Analisis.Find(id);
+            Analisis analisis = _db.Analisis.Find(id);
             if (analisis == null)
             {
                 return HttpNotFound();
@@ -116,9 +120,9 @@ namespace LabMedico.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Analisis analisis = db.Analisis.Find(id);
-            db.Analisis.Remove(analisis);
-            db.SaveChanges();
+            Analisis analisis = _db.Analisis.Find(id);
+            _db.Analisis.Remove(analisis);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -126,7 +130,7 @@ namespace LabMedico.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }

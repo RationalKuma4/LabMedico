@@ -12,12 +12,16 @@ namespace LabMedico.Controllers
 {
     public class TecnicosController : Controller
     {
-        private LaboratorioDbContext db = new LaboratorioDbContext();
-
+        //private LaboratorioDbContext _db = new LaboratorioDbContext();
+        private readonly LaboratorioDbContext _db;
+        public TecnicosController(LaboratorioDbContext db)
+        {
+            _db = db;
+        }
         // GET: Tecnicos
         public ActionResult Index()
         {
-            var tecnicoes = db.Tecnicoes.Include(t => t.Estudios).Include(t => t.Sucursales);
+            var tecnicoes = _db.Tecnicoes.Include(t => t.Estudios).Include(t => t.Sucursales);
             return View(tecnicoes.ToList());
         }
 
@@ -28,7 +32,7 @@ namespace LabMedico.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tecnico tecnico = db.Tecnicoes.Find(id);
+            Tecnico tecnico = _db.Tecnicoes.Find(id);
             if (tecnico == null)
             {
                 return HttpNotFound();
@@ -39,8 +43,8 @@ namespace LabMedico.Controllers
         // GET: Tecnicos/Create
         public ActionResult Create()
         {
-            ViewBag.EstudioId = new SelectList(db.Estudios, "EstudioId", "Nombre");
-            ViewBag.SucursalId = new SelectList(db.Sucursals, "SucursalId", "Nombre");
+            ViewBag.EstudioId = new SelectList(_db.Estudios, "EstudioId", "Nombre");
+            ViewBag.SucursalId = new SelectList(_db.Sucursals, "SucursalId", "Nombre");
             ViewBag.Estatus = Constantes.estatus;
             return View();
         }
@@ -54,13 +58,13 @@ namespace LabMedico.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Tecnicoes.Add(tecnico);
-                db.SaveChanges();
+                _db.Tecnicoes.Add(tecnico);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.EstudioId = new SelectList(db.Estudios, "EstudioId", "Nombre", tecnico.EstudioId);
-            ViewBag.SucursalId = new SelectList(db.Sucursals, "SucursalId", "Nombre", tecnico.SucursalId);
+            ViewBag.EstudioId = new SelectList(_db.Estudios, "EstudioId", "Nombre", tecnico.EstudioId);
+            ViewBag.SucursalId = new SelectList(_db.Sucursals, "SucursalId", "Nombre", tecnico.SucursalId);
             return View(tecnico);
         }
 
@@ -71,13 +75,13 @@ namespace LabMedico.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tecnico tecnico = db.Tecnicoes.Find(id);
+            Tecnico tecnico = _db.Tecnicoes.Find(id);
             if (tecnico == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.EstudioId = new SelectList(db.Estudios, "EstudioId", "Nombre", tecnico.EstudioId);
-            ViewBag.SucursalId = new SelectList(db.Sucursals, "SucursalId", "Nombre", tecnico.SucursalId);
+            ViewBag.EstudioId = new SelectList(_db.Estudios, "EstudioId", "Nombre", tecnico.EstudioId);
+            ViewBag.SucursalId = new SelectList(_db.Sucursals, "SucursalId", "Nombre", tecnico.SucursalId);
             ViewBag.Estatus = Constantes.estatus;
             return View(tecnico);
         }
@@ -91,12 +95,12 @@ namespace LabMedico.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(tecnico).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(tecnico).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.EstudioId = new SelectList(db.Estudios, "EstudioId", "Nombre", tecnico.EstudioId);
-            ViewBag.SucursalId = new SelectList(db.Sucursals, "SucursalId", "Nombre", tecnico.SucursalId);
+            ViewBag.EstudioId = new SelectList(_db.Estudios, "EstudioId", "Nombre", tecnico.EstudioId);
+            ViewBag.SucursalId = new SelectList(_db.Sucursals, "SucursalId", "Nombre", tecnico.SucursalId);
             return View(tecnico);
         }
 
@@ -107,7 +111,7 @@ namespace LabMedico.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tecnico tecnico = db.Tecnicoes.Find(id);
+            Tecnico tecnico = _db.Tecnicoes.Find(id);
             if (tecnico == null)
             {
                 return HttpNotFound();
@@ -120,9 +124,9 @@ namespace LabMedico.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Tecnico tecnico = db.Tecnicoes.Find(id);
-            db.Tecnicoes.Remove(tecnico);
-            db.SaveChanges();
+            Tecnico tecnico = _db.Tecnicoes.Find(id);
+            _db.Tecnicoes.Remove(tecnico);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -130,7 +134,7 @@ namespace LabMedico.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }

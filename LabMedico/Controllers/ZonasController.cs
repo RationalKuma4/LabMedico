@@ -12,12 +12,16 @@ namespace LabMedico.Controllers
 {
     public class ZonasController : Controller
     {
-        private LaboratorioDbContext db = new LaboratorioDbContext();
-
+        //private LaboratorioDbContext _db = new LaboratorioDbContext();
+        private readonly LaboratorioDbContext _db;
+        public ZonasController(LaboratorioDbContext db)
+        {
+            _db = db;
+        }
         // GET: Zonas
         public ActionResult Index()
         {
-            return View(db.Zonas.ToList());
+            return View(_db.Zonas.ToList());
         }
 
         // GET: Zonas/Details/5
@@ -27,7 +31,7 @@ namespace LabMedico.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Zona zona = db.Zonas.Find(id);
+            Zona zona = _db.Zonas.Find(id);
             if (zona == null)
             {
                 return HttpNotFound();
@@ -50,8 +54,8 @@ namespace LabMedico.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Zonas.Add(zona);
-                db.SaveChanges();
+                _db.Zonas.Add(zona);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -65,7 +69,7 @@ namespace LabMedico.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Zona zona = db.Zonas.Find(id);
+            Zona zona = _db.Zonas.Find(id);
             if (zona == null)
             {
                 return HttpNotFound();
@@ -82,8 +86,8 @@ namespace LabMedico.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(zona).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(zona).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(zona);
@@ -96,7 +100,7 @@ namespace LabMedico.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Zona zona = db.Zonas.Find(id);
+            Zona zona = _db.Zonas.Find(id);
             if (zona == null)
             {
                 return HttpNotFound();
@@ -109,9 +113,9 @@ namespace LabMedico.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Zona zona = db.Zonas.Find(id);
-            db.Zonas.Remove(zona);
-            db.SaveChanges();
+            Zona zona = _db.Zonas.Find(id);
+            _db.Zonas.Remove(zona);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -119,7 +123,7 @@ namespace LabMedico.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }

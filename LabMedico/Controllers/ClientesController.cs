@@ -12,12 +12,16 @@ namespace LabMedico.Controllers
 {
     public class ClientesController : Controller
     {
-        private LaboratorioDbContext db = new LaboratorioDbContext();
-
+        //private LaboratorioDbContext _db = new LaboratorioDbContext();
+        private readonly LaboratorioDbContext _db;
+        public ClientesController(LaboratorioDbContext db)
+        {
+            _db = db;
+        }
         // GET: Clientes
         public ActionResult Index()
         {
-            return View(db.Clientes.ToList());
+            return View(_db.Clientes.ToList());
         }
 
         // GET: Clientes/Details/5
@@ -27,7 +31,7 @@ namespace LabMedico.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Cliente cliente = db.Clientes.Find(id);
+            Cliente cliente = _db.Clientes.Find(id);
             if (cliente == null)
             {
                 return HttpNotFound();
@@ -51,8 +55,8 @@ namespace LabMedico.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Clientes.Add(cliente);
-                db.SaveChanges();
+                _db.Clientes.Add(cliente);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -66,7 +70,7 @@ namespace LabMedico.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Cliente cliente = db.Clientes.Find(id);
+            Cliente cliente = _db.Clientes.Find(id);
             ViewBag.Estatus = Constantes.estatus;
             if (cliente == null)
             {
@@ -84,8 +88,8 @@ namespace LabMedico.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(cliente).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(cliente).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(cliente);
@@ -98,7 +102,7 @@ namespace LabMedico.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Cliente cliente = db.Clientes.Find(id);
+            Cliente cliente = _db.Clientes.Find(id);
             if (cliente == null)
             {
                 return HttpNotFound();
@@ -111,9 +115,9 @@ namespace LabMedico.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Cliente cliente = db.Clientes.Find(id);
-            db.Clientes.Remove(cliente);
-            db.SaveChanges();
+            Cliente cliente = _db.Clientes.Find(id);
+            _db.Clientes.Remove(cliente);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -121,7 +125,7 @@ namespace LabMedico.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }

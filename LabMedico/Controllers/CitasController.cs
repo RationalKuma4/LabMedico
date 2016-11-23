@@ -12,12 +12,16 @@ namespace LabMedico.Controllers
 {
     public class CitasController : Controller
     {
-        private LaboratorioDbContext db = new LaboratorioDbContext();
-
+        //private LaboratorioDbContext _db = new LaboratorioDbContext();
+        private readonly LaboratorioDbContext _db;
+        public CitasController(LaboratorioDbContext db)
+        {
+            _db = db;
+        }
         // GET: Citas
         public ActionResult Index()
         {
-            var citas = db.Citas.Include(c => c.Analisis).Include(c => c.Clientes).Include(c => c.Usuarios);
+            var citas = _db.Citas.Include(c => c.Analisis).Include(c => c.Clientes).Include(c => c.Usuarios);
             return View(citas.ToList());
         }
 
@@ -28,7 +32,7 @@ namespace LabMedico.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Cita cita = db.Citas.Find(id);
+            Cita cita = _db.Citas.Find(id);
             if (cita == null)
             {
                 return HttpNotFound();
@@ -39,9 +43,9 @@ namespace LabMedico.Controllers
         // GET: Citas/Create
         public ActionResult Create()
         {
-            ViewBag.AnalisisId = new SelectList(db.Analisis, "AnalisisId", "Nombre");
-            ViewBag.ClienteId = new SelectList(db.Clientes, "ClienteId", "Nombre");
-            //ViewBag.Id = new SelectList(db.LaboratorioUsers, "Id", "Usuario");
+            ViewBag.AnalisisId = new SelectList(_db.Analisis, "AnalisisId", "Nombre");
+            ViewBag.ClienteId = new SelectList(_db.Clientes, "ClienteId", "Nombre");
+            //ViewBag.Id = new SelectList(_db.LaboratorioUsers, "Id", "Usuario");
             return View();
         }
 
@@ -54,14 +58,14 @@ namespace LabMedico.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Citas.Add(cita);
-                db.SaveChanges();
+                _db.Citas.Add(cita);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.AnalisisId = new SelectList(db.Analisis, "AnalisisId", "Nombre", cita.AnalisisId);
-            ViewBag.ClienteId = new SelectList(db.Clientes, "ClienteId", "Nombre", cita.ClienteId);
-            //ViewBag.Id = new SelectList(db.LaboratorioUsers, "Id", "Usuario", cita.Id);
+            ViewBag.AnalisisId = new SelectList(_db.Analisis, "AnalisisId", "Nombre", cita.AnalisisId);
+            ViewBag.ClienteId = new SelectList(_db.Clientes, "ClienteId", "Nombre", cita.ClienteId);
+            //ViewBag.Id = new SelectList(_db.LaboratorioUsers, "Id", "Usuario", cita.Id);
             return View(cita);
         }
 
@@ -72,14 +76,14 @@ namespace LabMedico.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Cita cita = db.Citas.Find(id);
+            Cita cita = _db.Citas.Find(id);
             if (cita == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.AnalisisId = new SelectList(db.Analisis, "AnalisisId", "Nombre", cita.AnalisisId);
-            ViewBag.ClienteId = new SelectList(db.Clientes, "ClienteId", "Nombre", cita.ClienteId);
-            //ViewBag.Id = new SelectList(db.LaboratorioUsers, "Id", "Usuario", cita.Id);
+            ViewBag.AnalisisId = new SelectList(_db.Analisis, "AnalisisId", "Nombre", cita.AnalisisId);
+            ViewBag.ClienteId = new SelectList(_db.Clientes, "ClienteId", "Nombre", cita.ClienteId);
+            //ViewBag.Id = new SelectList(_db.LaboratorioUsers, "Id", "Usuario", cita.Id);
             return View(cita);
         }
 
@@ -92,13 +96,13 @@ namespace LabMedico.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(cita).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(cita).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.AnalisisId = new SelectList(db.Analisis, "AnalisisId", "Nombre", cita.AnalisisId);
-            ViewBag.ClienteId = new SelectList(db.Clientes, "ClienteId", "Nombre", cita.ClienteId);
-            //ViewBag.Id = new SelectList(db.LaboratorioUsers, "Id", "Usuario", cita.Id);
+            ViewBag.AnalisisId = new SelectList(_db.Analisis, "AnalisisId", "Nombre", cita.AnalisisId);
+            ViewBag.ClienteId = new SelectList(_db.Clientes, "ClienteId", "Nombre", cita.ClienteId);
+            //ViewBag.Id = new SelectList(_db.LaboratorioUsers, "Id", "Usuario", cita.Id);
             return View(cita);
         }
 
@@ -109,7 +113,7 @@ namespace LabMedico.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Cita cita = db.Citas.Find(id);
+            Cita cita = _db.Citas.Find(id);
             if (cita == null)
             {
                 return HttpNotFound();
@@ -122,9 +126,9 @@ namespace LabMedico.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Cita cita = db.Citas.Find(id);
-            db.Citas.Remove(cita);
-            db.SaveChanges();
+            Cita cita = _db.Citas.Find(id);
+            _db.Citas.Remove(cita);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -132,7 +136,7 @@ namespace LabMedico.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }

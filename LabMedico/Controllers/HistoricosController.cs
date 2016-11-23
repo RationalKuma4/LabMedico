@@ -12,12 +12,16 @@ namespace LabMedico.Controllers
 {
     public class HistoricosController : Controller
     {
-        private LaboratorioDbContext db = new LaboratorioDbContext();
-
+        //private LaboratorioDbContext _db = new LaboratorioDbContext();
+        private readonly LaboratorioDbContext _db;
+        public HistoricosController(LaboratorioDbContext db)
+        {
+            _db = db;
+        }
         // GET: Historicos
         public ActionResult Index()
         {
-            var historicoes = db.Historicoes.Include(h => h.Citas);
+            var historicoes = _db.Historicoes.Include(h => h.Citas);
             return View(historicoes.ToList());
         }
 
@@ -28,7 +32,7 @@ namespace LabMedico.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Historico historico = db.Historicoes.Find(id);
+            Historico historico = _db.Historicoes.Find(id);
             if (historico == null)
             {
                 return HttpNotFound();
@@ -39,7 +43,7 @@ namespace LabMedico.Controllers
         // GET: Historicos/Create
         public ActionResult Create()
         {
-            ViewBag.CitaId = new SelectList(db.Citas, "CitaId", "HoraAplicacion");
+            ViewBag.CitaId = new SelectList(_db.Citas, "CitaId", "HoraAplicacion");
             return View();
         }
 
@@ -52,12 +56,12 @@ namespace LabMedico.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Historicoes.Add(historico);
-                db.SaveChanges();
+                _db.Historicoes.Add(historico);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CitaId = new SelectList(db.Citas, "CitaId", "HoraAplicacion", historico.CitaId);
+            ViewBag.CitaId = new SelectList(_db.Citas, "CitaId", "HoraAplicacion", historico.CitaId);
             return View(historico);
         }
 
@@ -68,12 +72,12 @@ namespace LabMedico.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Historico historico = db.Historicoes.Find(id);
+            Historico historico = _db.Historicoes.Find(id);
             if (historico == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.CitaId = new SelectList(db.Citas, "CitaId", "HoraAplicacion", historico.CitaId);
+            ViewBag.CitaId = new SelectList(_db.Citas, "CitaId", "HoraAplicacion", historico.CitaId);
             return View(historico);
         }
 
@@ -86,11 +90,11 @@ namespace LabMedico.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(historico).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(historico).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CitaId = new SelectList(db.Citas, "CitaId", "HoraAplicacion", historico.CitaId);
+            ViewBag.CitaId = new SelectList(_db.Citas, "CitaId", "HoraAplicacion", historico.CitaId);
             return View(historico);
         }
 
@@ -101,7 +105,7 @@ namespace LabMedico.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Historico historico = db.Historicoes.Find(id);
+            Historico historico = _db.Historicoes.Find(id);
             if (historico == null)
             {
                 return HttpNotFound();
@@ -114,9 +118,9 @@ namespace LabMedico.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Historico historico = db.Historicoes.Find(id);
-            db.Historicoes.Remove(historico);
-            db.SaveChanges();
+            Historico historico = _db.Historicoes.Find(id);
+            _db.Historicoes.Remove(historico);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -124,7 +128,7 @@ namespace LabMedico.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
