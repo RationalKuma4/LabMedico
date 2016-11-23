@@ -1,14 +1,14 @@
 ﻿@*@model IEnumerable<LabMedico.Models.Sucursal>*@
 @model IEnumerable<LabMedico.ViewModels.SucursalViewModel>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Registrar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Registrar", "Create")
 </p>
 <table class="table table-striped">
     <tr>
@@ -85,9 +85,9 @@
                 @Html.DisplayFor(modelItem => item.ZonaNombre)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.SucursalId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.SucursalId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.SucursalId })
+                @Html.ActionLink("Editar", "Edit", new { id = item.SucursalId }) |
+                @Html.ActionLink("Detalle", "Details", new { id = item.SucursalId }) |
+                @Html.ActionLink("Borrar", "Delete", new { id = item.SucursalId })
             </td>
         </tr>
     }

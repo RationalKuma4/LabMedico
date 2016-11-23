@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<LabMedico.Models.Historico>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Historicos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Registrar", "Create")
 </p>
 <table class="table">
     <tr>
@@ -36,9 +36,9 @@
             @Html.DisplayFor(modelItem => item.Monto)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.HistoricoId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.HistoricoId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.HistoricoId })
+            @Html.ActionLink("Editar", "Edit", new { id=item.HistoricoId }) |
+            @Html.ActionLink("Detalle", "Details", new { id=item.HistoricoId }) |
+            @Html.ActionLink("Borrar", "Delete", new { id=item.HistoricoId })
         </td>
     </tr>
 }
