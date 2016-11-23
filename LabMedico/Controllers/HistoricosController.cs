@@ -12,12 +12,12 @@ namespace LabMedico.Controllers
 {
     public class HistoricosController : Controller
     {
-        //private LaboratorioDbContext _db = new LaboratorioDbContext();
-        private readonly LaboratorioDbContext _db;
-        public HistoricosController(LaboratorioDbContext db)
+        private LaboratorioDbContext _db = new LaboratorioDbContext();
+        //private readonly LaboratorioDbContext _db;
+        /*public HistoricosController(LaboratorioDbContext db)
         {
             _db = db;
-        }
+        }*/
         // GET: Historicos
         public ActionResult Index()
         {

@@ -12,12 +12,12 @@ namespace LabMedico.Controllers
 {
     public class CitasController : Controller
     {
-        //private LaboratorioDbContext _db = new LaboratorioDbContext();
-        private readonly LaboratorioDbContext _db;
-        public CitasController(LaboratorioDbContext db)
+        private LaboratorioDbContext _db = new LaboratorioDbContext();
+        //private readonly LaboratorioDbContext _db;
+        /*public CitasController(LaboratorioDbContext db)
         {
             _db = db;
-        }
+        }*/
         // GET: Citas
         public ActionResult Index()
         {

@@ -10,12 +10,12 @@ namespace LabMedico.Controllers
 {
     public class SucursalesController : Controller
     {
-        //private LaboratorioDbContext _db = new LaboratorioDbContext();
-        private readonly LaboratorioDbContext _db;
-        public SucursalesController(LaboratorioDbContext db)
+        private LaboratorioDbContext _db = new LaboratorioDbContext();
+        //private readonly LaboratorioDbContext _db;
+        /*public SucursalesController(LaboratorioDbContext db)
         {
             _db = db;
-        }
+        }*/
         // GET: Sucursales
         public ActionResult Index()
         {

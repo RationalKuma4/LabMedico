@@ -8,12 +8,12 @@ namespace LabMedico.Controllers
 {
     public class EstudiosController : Controller
     {
-        //private LaboratorioDbContext db = new LaboratorioDbContext();
-        private readonly LaboratorioDbContext _db;
-        public EstudiosController(LaboratorioDbContext db)
+        private LaboratorioDbContext _db = new LaboratorioDbContext();
+        //private readonly LaboratorioDbContext _db;
+        /*public EstudiosController(LaboratorioDbContext db)
         {
             _db = db;
-        }
+        }*/
 
         // GET: Estudios
         public ActionResult Index()
