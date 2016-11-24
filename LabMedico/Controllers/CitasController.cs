@@ -5,6 +5,8 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using LabMedico.Models;
+using Microsoft.Reporting.WebForms;
+//using ReportViewerForMvc;
 
 namespace LabMedico.Controllers
 {
@@ -162,6 +164,23 @@ namespace LabMedico.Controllers
                 _db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public FileResult PrintCita()
+        {
+            using (var local = new LocalReport())
+            {
+                var citaInfo = _db.Citas
+                    .Where(c => c.CitaId == 1)
+                    .ToList();
+                local.ReportPath = "Reports\\NotaEmision.rdlc";
+                local.EnableExternalImages = false;
+                local.DisplayName = "Cita";
+                local.DataSources.Add(new ReportDataSource("Appoiment", citaInfo));
+                local.Refresh();
+                var reporte = local.Render("pdf");
+                return File(reporte, System.Net.Mime.MediaTypeNames.Application.Octet, "hola.pdf");
+            }
         }
     }
 }
