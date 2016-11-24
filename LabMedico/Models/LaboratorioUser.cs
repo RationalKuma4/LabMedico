@@ -4,7 +4,6 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using LabMedico.Models.CustomUser;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace LabMedico.Models
 {

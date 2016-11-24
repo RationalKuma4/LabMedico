@@ -1,7 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -12,7 +9,6 @@ using LabMedico.Models;
 using LabMedico.ViewModels.AccountViewModels;
 using Microsoft.AspNet.Identity.EntityFramework;
 using LabMedico.Models.CustomUser;
-using System.Net;
 
 namespace LabMedico.Controllers
 {
@@ -79,7 +75,7 @@ namespace LabMedico.Controllers
 
             // No cuenta los errores de inicio de sesión para el bloqueo de la cuenta
             // Para permitir que los errores de contraseña desencadenen el bloqueo de la cuenta, cambie a shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -101,7 +97,8 @@ namespace LabMedico.Controllers
         public ActionResult Register()
         {
             ViewBag.Roles = new SelectList(db.Roles, "Id", "Name");
-            //ViewBag.Sucursales = new SelectList(db.Sucursals, "SucursalId", "Nombre");
+            ViewBag.Sucursales = new SelectList(db.Sucursals, "SucursalId", "Nombre");
+            ViewBag.Estatus = Constantes.estatus;
             return View();
         }
 
@@ -116,7 +113,23 @@ namespace LabMedico.Controllers
             {
                 var user = new LaboratorioUser
                 {
-                    UserName = model.Email,
+                    Nombre = model.Nombre,
+                    ApellidoPaterno = model.ApellidoPaterno,
+                    ApellidoMaterno = model.ApellidoMaterno,
+                    Calle = model.Calle,
+                    NumeroInterior = model.NumeroInterior,
+                    NumeroExterior = model.NumeroExterior,
+                    Colonia = model.Colonia,
+                    DelegacionMunicipio = model.DelegacionMunicipio,
+                    CodigoPostal = model.CodigoPostal,
+                    Estado = model.Estado,
+                    Edad = model.Edad,
+                    Sexo = model.Sexo,
+                    Notas = model.Notas,
+                    SucursalId = model.SucursalId,
+                    Estatus = model.Estatus,
+                    Usuario = model.Usuario,
+                    UserName = model.Usuario,
                     Email = model.Email
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);

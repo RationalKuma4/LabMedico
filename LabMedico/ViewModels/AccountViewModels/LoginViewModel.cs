@@ -5,6 +5,9 @@ namespace LabMedico.ViewModels.AccountViewModels
     public class LoginViewModel
     {
         [Required]
+        [Display(Name = "Usuario")]
+        public string UserName { get; set; }
+        //[Required]
         [Display(Name = "Correo electrónico")]
         [EmailAddress]
         public string Email { get; set; }

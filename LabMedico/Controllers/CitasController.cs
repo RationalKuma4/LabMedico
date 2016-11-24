@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using LabMedico.Models;
 
@@ -56,10 +54,18 @@ namespace LabMedico.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "CitaId,FechaRegistro,FechaEntrega,FechaAplicacion,HoraAplicacion,Id,ClienteId,AnalisisId,Estatus,Monto")] Cita cita)
         {
-            if (ModelState.IsValid)
+            cita.FechaRegistro = DateTime.Today;
+            cita.FechaEntrega = DateTime.Today.AddDays(5);
+            cita.Id = _db.Users.Where(u => u.UserName.Equals(User.Identity.Name)).ToList().FirstOrDefault().Id;
+            cita.Monto = _db.AnalisisSucursals.Where(m => m.AnalisisId == 1 && m.SucursalId == 1)
+                .FirstOrDefault()
+                .Costo;
+
+            if (!ModelState.IsValid)
             {
                 _db.Citas.Add(cita);
                 _db.SaveChanges();
+                InsertTecnicoCita(cita);
                 return RedirectToAction("Index");
             }
 
@@ -67,6 +73,23 @@ namespace LabMedico.Controllers
             ViewBag.ClienteId = new SelectList(_db.Clientes, "ClienteId", "Nombre", cita.ClienteId);
             //ViewBag.Id = new SelectList(_db.LaboratorioUsers, "Id", "Usuario", cita.Id);
             return View(cita);
+        }
+
+        private void InsertTecnicoCita(Cita cita)
+        {
+            var userSucursal = _db.Users.Where(u => u.Usuario.Equals(User.Identity.Name))
+                .FirstOrDefault();
+            var estudioId = _db.Analisis.Where(a => a.AnalisisId == cita.AnalisisId).FirstOrDefault().EstudioId;
+            var tecnicoId = _db.Tecnicoes.Where(t => t.EstudioId == estudioId).FirstOrDefault().TecnicoId;
+
+            var tecnicoCitas = new TecnicoCitas
+            {
+                CitaId = cita.Id,
+                TecnicoId = tecnicoId
+            };
+
+            _db.TecnicoCitas.Add(tecnicoCitas);
+            _db.SaveChanges();
         }
 
         // GET: Citas/Edit/5
