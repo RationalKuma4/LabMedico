@@ -6,7 +6,6 @@ using System.Net;
 using System.Web.Mvc;
 using LabMedico.Models;
 using Microsoft.Reporting.WebForms;
-//using ReportViewerForMvc;
 
 namespace LabMedico.Controllers
 {
