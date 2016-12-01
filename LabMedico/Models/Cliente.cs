@@ -94,6 +94,12 @@ namespace LabMedico.Models
         [DataType(DataType.Text)]
         public string Estatus { get; set; } = "";
 
+        [ScaffoldColumn(false)]
+        public string NombreCompleto
+        {
+            get { return $@"{Nombre} {ApellidoPaterno} {ApellidoMaterno}"; }
+        }
+
         public virtual ICollection<Cita> Citas { get; set; }
     }
 }

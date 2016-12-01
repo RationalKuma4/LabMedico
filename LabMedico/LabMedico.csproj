@@ -195,6 +195,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612012012116_NombreCompleto.cs" />
+    <Compile Include="Migrations\201612012012116_NombreCompleto.Designer.cs">
+      <DependentUpon>201612012012116_NombreCompleto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ReportRepository\CItasRepository.cs" />
     <Compile Include="Reports\LabMedicoDB3MainDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -230,6 +235,7 @@
     <Compile Include="ViewModels\AccountViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\ResetPasswordViewModel.cs" />
+    <Compile Include="ViewModels\CitaEmisionViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels\ChangePasswordViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels\IndexViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels\ManageLoginsViewModel.cs" />
@@ -380,6 +386,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201611212123410_Migration_0.resx">
       <DependentUpon>201611212123410_Migration_0.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612012012116_NombreCompleto.resx">
+      <DependentUpon>201612012012116_NombreCompleto.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\NotaEmision.rdlc" />
   </ItemGroup>

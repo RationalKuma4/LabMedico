@@ -43,7 +43,7 @@ namespace LabMedico.Controllers
         public ActionResult Create()
         {
             ViewBag.AnalisisId = new SelectList(_db.Analisis, "AnalisisId", "Nombre");
-            ViewBag.ClienteId = new SelectList(_db.Clientes, "ClienteId", "Nombre");
+            ViewBag.ClienteId = new SelectList(_db.Clientes, "ClienteId", "NombreCompleto");
             //ViewBag.Id = new SelectList(_db.LaboratorioUsers, "Id", "Usuario");
             return View();
         }
