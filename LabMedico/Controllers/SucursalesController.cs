@@ -8,6 +8,7 @@ using LabMedico.ViewModels;
 
 namespace LabMedico.Controllers
 {
+    [Authorize(Roles = "Administrador")]
     public class SucursalesController : Controller
     {
         private LaboratorioDbContext _db = new LaboratorioDbContext();

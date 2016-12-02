@@ -6,6 +6,7 @@ using LabMedico.Models;
 
 namespace LabMedico.Controllers
 {
+    [Authorize(Roles = "Recepcionista")]
     public class ClientesController : Controller
     {
         private LaboratorioDbContext _db = new LaboratorioDbContext();

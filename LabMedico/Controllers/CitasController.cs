@@ -9,6 +9,7 @@ using Microsoft.Reporting.WebForms;
 
 namespace LabMedico.Controllers
 {
+    [Authorize(Roles = "Recepcionista")]
     public class CitasController : Controller
     {
         private LaboratorioDbContext _db = new LaboratorioDbContext();
