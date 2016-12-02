@@ -16,10 +16,13 @@ namespace LabMedico.Controllers
             _db = db;
         }*/
         // GET: Analisis
-        public ActionResult Index()
+        public ActionResult Index(string searchString)
         {
             var analisis = _db.Analisis.Include(a => a.Estudios);
-            return View(analisis.ToList());
+            if (!string.IsNullOrWhiteSpace(searchString))
+                return View(analisis.Where(a => a.Nombre.Contains(searchString)));
+            else
+                return View(analisis.ToList());
         }
 
         // GET: Analisis/Details/5

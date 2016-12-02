@@ -3,7 +3,6 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using LabMedico.Models;
-using PagedList;
 
 namespace LabMedico.Controllers
 {
@@ -25,13 +24,9 @@ namespace LabMedico.Controllers
         public ActionResult Index(string searchString)
         {
             if (!string.IsNullOrWhiteSpace(searchString))
-            {
                 return View(_db.Clientes.Where(c => c.Nombre.Contains(searchString)).ToList());
-            }
             else
-            {
                 return View(_db.Clientes.ToList());
-            }
         }
         // GET: Clientes/Details/5
         public ActionResult Details(int? id)

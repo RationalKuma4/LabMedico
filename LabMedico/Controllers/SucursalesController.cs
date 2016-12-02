@@ -18,10 +18,15 @@ namespace LabMedico.Controllers
             _db = db;
         }*/
         // GET: Sucursales
-        public ActionResult Index()
+        public ActionResult Index(string searchString)
         {
             //return View(_db.Sucursals.ToList());
-            return View(SucursalesResulset());
+            IEnumerable<SucursalViewModel> sucursales = null;
+            if (!string.IsNullOrWhiteSpace(searchString))
+                sucursales = SucursalesResulset().Where(s => s.Nombre.Contains(searchString));
+            else
+                sucursales = SucursalesResulset();
+            return View(sucursales.ToList());
         }
 
         // GET: Sucursales/Details/5

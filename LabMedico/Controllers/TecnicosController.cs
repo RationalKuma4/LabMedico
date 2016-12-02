@@ -16,10 +16,15 @@ namespace LabMedico.Controllers
             _db = db;
         }*/
         // GET: Tecnicos
-        public ActionResult Index()
+        public ActionResult Index(string searchString)
         {
             var tecnicoes = _db.Tecnicoes.Include(t => t.Estudios).Include(t => t.Sucursales);
-            return View(tecnicoes.ToList());
+            if (!string.IsNullOrWhiteSpace(searchString))
+                return View(tecnicoes.Where(t => t.Nombre.Contains(searchString)).ToList());
+            else
+                return View(tecnicoes.ToList());
+
+            //return View(tecnicoes.ToList());
         }
 
         // GET: Tecnicos/Details/5

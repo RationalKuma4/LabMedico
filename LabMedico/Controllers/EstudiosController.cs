@@ -17,9 +17,12 @@ namespace LabMedico.Controllers
         }*/
 
         // GET: Estudios
-        public ActionResult Index()
+        public ActionResult Index(string searchString)
         {
-            return View(_db.Estudios.ToList());
+            if (!string.IsNullOrWhiteSpace(searchString))
+                return View(_db.Estudios.Where(e => e.Nombre.Contains(searchString)).ToList());
+            else
+                return View(_db.Estudios.ToList());
         }
 
         // GET: Estudios/Details/5
