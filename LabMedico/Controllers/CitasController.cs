@@ -41,14 +41,21 @@ namespace LabMedico.Controllers
         }
 
         // GET: Citas/Create
-        public ActionResult Create()
+        /*public ActionResult Create()
         {
             ViewBag.AnalisisId = new SelectList(_db.Analisis, "AnalisisId", "Nombre");
             ViewBag.ClienteId = new SelectList(_db.Clientes, "ClienteId", "NombreCompleto");
             //ViewBag.Id = new SelectList(_db.LaboratorioUsers, "Id", "Usuario");
             return View();
-        }
+        }*/
 
+        public ActionResult Create(int id)
+        {
+            ViewBag.AnalisisId = new SelectList(_db.Analisis, "AnalisisId", "Nombre");
+            ViewBag.ClienteId = new SelectList(_db.Clientes, "ClienteId", "NombreCompleto", id);
+            //ViewBag.Id = new SelectList(_db.LaboratorioUsers, "Id", "Usuario");
+            return View();
+        }
         // POST: Citas/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
