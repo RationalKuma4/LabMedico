@@ -6,6 +6,7 @@ using System.Net;
 using System.Web.Mvc;
 using LabMedico.Models;
 using Microsoft.Reporting.WebForms;
+using LabMedico.ReportRepository;
 
 namespace LabMedico.Controllers
 {
@@ -51,6 +52,25 @@ namespace LabMedico.Controllers
 
         public ActionResult Create(int id)
         {
+            var sucursalId = _db.Users
+                .Where(s => s.Usuario.Equals(User.Identity.Name))
+                .FirstOrDefault().SucursalId;
+            var analisisSucursal = _db.AnalisisSucursals
+                .Where(a => a.SucursalId == sucursalId);
+
+            var result =
+                from a in _db.Sucursals
+                join s in analisisSucursal on a.SucursalId equals s.SucursalId
+                into resulSet
+                from r in resulSet.DefaultIfEmpty()
+                select new
+                {
+                    AnalisisId = 
+                };
+
+
+
+
             ViewBag.AnalisisId = new SelectList(_db.Analisis, "AnalisisId", "Nombre");
             ViewBag.ClienteId = new SelectList(_db.Clientes, "ClienteId", "NombreCompleto", id);
             //ViewBag.Id = new SelectList(_db.LaboratorioUsers, "Id", "Usuario");
@@ -173,17 +193,15 @@ namespace LabMedico.Controllers
             base.Dispose(disposing);
         }
 
+        [HttpGet]
         public FileResult PrintCita()
         {
             using (var local = new LocalReport())
             {
-                var citaInfo = _db.Citas
-                    .Where(c => c.CitaId == 1)
-                    .ToList();
+                var citaInfo = (new CItasRepository()).RegresaNota(1);
                 local.ReportPath = "Reports\\NotaEmision.rdlc";
-                local.EnableExternalImages = false;
                 local.DisplayName = "Cita";
-                local.DataSources.Add(new ReportDataSource("Appoiment", citaInfo));
+                local.DataSources.Add(new ReportDataSource("CItaVM", citaInfo));
                 local.Refresh();
                 var reporte = local.Render("pdf");
                 return File(reporte, System.Net.Mime.MediaTypeNames.Application.Octet, "hola.pdf");

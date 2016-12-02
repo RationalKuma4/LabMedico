@@ -32,6 +32,15 @@ namespace LabMedico.ReportRepository
                 .Include(te => te.Tecnico)
                 .FirstOrDefault();
 
+            var datosEstudio = _db.Estudios
+                .Where(e => e.EstudioId == datosCita.Analisis.EstudioId)
+                .FirstOrDefault();
+
+            var monto = _db.AnalisisSucursals
+                .Where(s => s.SucursalId == datosCita.Usuarios.SucursalId && s.AnalisisId == datosCita.AnalisisId)
+                .FirstOrDefault()
+                .Costo;
+
             var citaView = new CitaEmisionViewModel
             {
                 Sucursal = datosSucursal.Calle + " "
@@ -51,7 +60,11 @@ namespace LabMedico.ReportRepository
                 DireccionCliente = datosCita.Clientes.Calle + " " + datosCita.Clientes.NumeroExterior.ToString() + " "
                 + datosCita.Clientes.NumeroInterior.ToString() + " " + datosCita.Clientes.Colonia + " "
                 + datosCita.Clientes.CodigoPostal.ToString() + " " + datosCita.Clientes.DelegacionMunicipio,
-                FechaEntrega = datosCita.FechaEntrega
+                FechaEntrega = datosCita.FechaEntrega,
+                EstudioNombre = datosEstudio.Nombre,
+                AnalisisNombre = datosCita.Analisis.Nombre,
+                Monto = monto,
+                ObservacionesRequisitos = datosCita.Analisis.Requisitos
             };
 
             return new List<CitaEmisionViewModel>() { citaView };

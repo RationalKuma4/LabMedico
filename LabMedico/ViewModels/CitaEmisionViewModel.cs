@@ -18,8 +18,8 @@ namespace LabMedico.ViewModels
         public DateTime? FechaAplicacion { get; set; }
         public string HoraAplicacion { get; set; }
         public string Usuario { get; set; }
-        public string Estudio { get; set; }
-        public string Analisis { get; set; }
+        public string EstudioNombre { get; set; }
+        public string AnalisisNombre { get; set; }
         public decimal? Monto { get; set; }
         public string ObservacionesRequisitos { get; set; }
     }

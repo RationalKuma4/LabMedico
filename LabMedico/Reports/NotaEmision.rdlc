@@ -618,7 +618,9 @@
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>FechaEntrega</rd:DefaultName>
@@ -730,7 +732,7 @@
         <Top>1.6225cm</Top>
         <Left>0.12513cm</Left>
         <Height>3.6cm</Height>
-        <Width>14.31333cm</Width>
+        <Width>14.31334cm</Width>
         <ZIndex>2</ZIndex>
         <Style>
           <Border>
@@ -889,14 +891,14 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Estudio">
+                    <Textbox Name="EstudioNombre">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Estudio.Value</Value>
+                              <Value>=Fields!EstudioNombre.Value</Value>
                               <Style>
                                 <FontFamily>segoe ui</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -906,7 +908,7 @@
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Estudio</rd:DefaultName>
+                      <rd:DefaultName>EstudioNombre</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -926,14 +928,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Analisis">
+                    <Textbox Name="AnalisisNombre">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Analisis.Value</Value>
+                              <Value>=Fields!AnalisisNombre.Value</Value>
                               <Style>
                                 <FontFamily>segoe ui</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -943,11 +945,16 @@
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Analisis</rd:DefaultName>
+                      <rd:DefaultName>AnalisisNombre</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>None</Style>
                         </Border>
+                        <RightBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </RightBorder>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1062,6 +1069,11 @@
                           <Style>Solid</Style>
                           <Width>1pt</Width>
                         </BottomBorder>
+                        <RightBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </RightBorder>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1306,7 +1318,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!Monto.Value, "Appoiment")</Value>
+                              <Value>=Sum(Fields!Monto.Value)</Value>
                               <Style>
                                 <FontFamily>segoe ui</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -1362,7 +1374,7 @@
         <Top>5.63245cm</Top>
         <Left>0.12513cm</Left>
         <Height>6.35318cm</Height>
-        <Width>19.95602cm</Width>
+        <Width>19.95603cm</Width>
         <ZIndex>3</ZIndex>
         <Style>
           <Border>
@@ -1396,12 +1408,12 @@
   </Body>
   <Width>7.97917in</Width>
   <Page>
-    <PageHeight>29.7cm</PageHeight>
-    <PageWidth>21cm</PageWidth>
-    <LeftMargin>2cm</LeftMargin>
-    <RightMargin>2cm</RightMargin>
-    <TopMargin>2cm</TopMargin>
-    <BottomMargin>2cm</BottomMargin>
+    <PageHeight>14.8cm</PageHeight>
+    <PageWidth>22.5cm</PageWidth>
+    <LeftMargin>1cm</LeftMargin>
+    <RightMargin>1cm</RightMargin>
+    <TopMargin>1cm</TopMargin>
+    <BottomMargin>1cm</BottomMargin>
     <ColumnSpacing>0.13cm</ColumnSpacing>
     <Style />
   </Page>
@@ -1423,62 +1435,6 @@
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="Appoiment">
-      <Query>
-        <DataSourceName>LabMedicoDB3MainDataSet</DataSourceName>
-        <CommandText>/* Local Query */</CommandText>
-      </Query>
-      <Fields>
-        <Field Name="CitaId">
-          <DataField>CitaId</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="FechaRegistro">
-          <DataField>FechaRegistro</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="FechaEntrega">
-          <DataField>FechaEntrega</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="FechaAplicacion">
-          <DataField>FechaAplicacion</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="HoraAplicacion">
-          <DataField>HoraAplicacion</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Id">
-          <DataField>Id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="ClienteId">
-          <DataField>ClienteId</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="AnalisisId">
-          <DataField>AnalisisId</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="Estatus">
-          <DataField>Estatus</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Monto">
-          <DataField>Monto</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-      </Fields>
-      <rd:DataSetInfo>
-        <rd:DataSetName>LabMedicoDB3MainDataSet</rd:DataSetName>
-        <rd:SchemaPath>C:\Users\Anselmo-LT\Downloads\LabMedico\LabMedico\LabMedicoDB3MainDataSet.xsd</rd:SchemaPath>
-        <rd:TableName>Citas</rd:TableName>
-        <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
-        <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
-        <rd:TableAdapterName>CitasTableAdapter</rd:TableAdapterName>
-      </rd:DataSetInfo>
-    </DataSet>
     <DataSet Name="CItaVM">
       <Query>
         <DataSourceName>LabMedicoReportRepository</DataSourceName>
@@ -1541,12 +1497,12 @@
           <DataField>Usuario</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Estudio">
-          <DataField>Estudio</DataField>
+        <Field Name="EstudioNombre">
+          <DataField>EstudioNombre</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Analisis">
-          <DataField>Analisis</DataField>
+        <Field Name="AnalisisNombre">
+          <DataField>AnalisisNombre</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Monto">
