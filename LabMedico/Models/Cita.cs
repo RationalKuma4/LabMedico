@@ -30,6 +30,7 @@ namespace LabMedico.Models
         public DateTime? FechaAplicacion { get; set; }
 
         [Required]
+        [Display(Name = "Hora de Aplicación")]
         public string HoraAplicacion { get; set; }
 
         [Required]
@@ -37,9 +38,11 @@ namespace LabMedico.Models
         public int Id { get; set; }
 
         [Required]
+        [Display(Name = "Cliente")]
         public int ClienteId { get; set; }
 
         [Required]
+        [Display(Name = "Analisis")]
         public int AnalisisId { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "No se permiten campos vacios.")]

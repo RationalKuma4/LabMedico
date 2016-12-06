@@ -55,24 +55,30 @@ namespace LabMedico.Controllers
             var sucursalId = _db.Users
                 .Where(s => s.Usuario.Equals(User.Identity.Name))
                 .FirstOrDefault().SucursalId;
-            var analisisSucursal = _db.AnalisisSucursals
-                .Where(a => a.SucursalId == sucursalId);
 
-            var result =
-                from a in _db.Sucursals
-                join s in analisisSucursal on a.SucursalId equals s.SucursalId
-                into resulSet
-                from r in resulSet.DefaultIfEmpty()
+            /*var result =
+               from a in _db.Analisis
+               join aa in _db.AnalisisSucursals
+                   on a.AnalisisId equals aa.AnalisisId
+               where aa.SucursalId == sucursalId
+               select a;*/
+
+            var result2 =
+                from a in _db.Analisis
+                join aa in _db.AnalisisSucursals
+                    on a.AnalisisId equals aa.AnalisisId
+                into resultSet
+                from r in resultSet.DefaultIfEmpty()
+                where r.SucursalId == sucursalId
                 select new
                 {
-                    AnalisisId = 
+                    AnalisisId = a.AnalisisId,
+                    Nombre = a.Nombre
                 };
 
-
-
-
-            ViewBag.AnalisisId = new SelectList(_db.Analisis, "AnalisisId", "Nombre");
+            ViewBag.AnalisisId = new SelectList(result2, "AnalisisId", "Nombre");
             ViewBag.ClienteId = new SelectList(_db.Clientes, "ClienteId", "NombreCompleto", id);
+            ViewBag.Estatus = Constantes.estatus;
             //ViewBag.Id = new SelectList(_db.LaboratorioUsers, "Id", "Usuario");
             return View();
         }
