@@ -10,7 +10,7 @@ using LabMedico.ReportRepository;
 
 namespace LabMedico.Controllers
 {
-    [Authorize(Roles = "Recepcionista")]
+    [Authorize(Roles = "Recepcionista, Administrador")]
     public class CitasController : Controller
     {
         private LaboratorioDbContext _db = new LaboratorioDbContext();
@@ -95,6 +95,7 @@ namespace LabMedico.Controllers
             cita.Monto = _db.AnalisisSucursals.Where(m => m.AnalisisId == 1 && m.SucursalId == 1)
                 .FirstOrDefault()
                 .Costo;
+            cita.Estatus = "Act";
 
             if (!ModelState.IsValid)
             {
@@ -115,11 +116,13 @@ namespace LabMedico.Controllers
             var userSucursal = _db.Users.Where(u => u.Usuario.Equals(User.Identity.Name))
                 .FirstOrDefault();
             var estudioId = _db.Analisis.Where(a => a.AnalisisId == cita.AnalisisId).FirstOrDefault().EstudioId;
-            var tecnicoId = _db.Tecnicoes.Where(t => t.EstudioId == estudioId).FirstOrDefault().TecnicoId;
+            var tecnicoId = _db.Tecnicoes.Where(t => t.EstudioId == estudioId && t.SucursalId == userSucursal.SucursalId)
+                .FirstOrDefault()
+                .TecnicoId;
 
             var tecnicoCitas = new TecnicoCitas
             {
-                CitaId = cita.Id,
+                CitaId = cita.CitaId,
                 TecnicoId = tecnicoId
             };
 
@@ -135,12 +138,14 @@ namespace LabMedico.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Cita cita = _db.Citas.Find(id);
+            cita.FechaAplicacion.ToString();
             if (cita == null)
             {
                 return HttpNotFound();
             }
             ViewBag.AnalisisId = new SelectList(_db.Analisis, "AnalisisId", "Nombre", cita.AnalisisId);
             ViewBag.ClienteId = new SelectList(_db.Clientes, "ClienteId", "Nombre", cita.ClienteId);
+            ViewBag.Estatus = Constantes.estatus;
             //ViewBag.Id = new SelectList(_db.LaboratorioUsers, "Id", "Usuario", cita.Id);
             return View(cita);
         }
@@ -200,18 +205,28 @@ namespace LabMedico.Controllers
         }
 
         [HttpGet]
-        public FileResult PrintCita()
+        public FileResult PrintCita(int id = 0)
         {
-            using (var local = new LocalReport())
+            if (id > 0)
             {
-                var citaInfo = (new CItasRepository()).RegresaNota(1);
-                local.ReportPath = "Reports\\NotaEmision.rdlc";
-                local.DisplayName = "Cita";
-                local.DataSources.Add(new ReportDataSource("CItaVM", citaInfo));
-                local.Refresh();
-                var reporte = local.Render("pdf");
-                return File(reporte, System.Net.Mime.MediaTypeNames.Application.Octet, "hola.pdf");
+                using (var local = new LocalReport())
+                {
+                    var citaInfo = (new CItasRepository()).RegresaNota(id);
+                    local.ReportPath = "Reports\\NotaEmision.rdlc";
+                    local.DisplayName = "Cita";
+                    local.DataSources.Add(new ReportDataSource("CItaVM", citaInfo));
+                    local.Refresh();
+                    var reporte = local.Render("pdf");
+                    return File(reporte, System.Net.Mime.MediaTypeNames.Application.Octet, "NotaCliente" + id.ToString() + ".pdf");
+                }
             }
+            return null;
+        }
+
+        [Authorize(Roles = "Administrador")]
+        public ActionResult ProcesaCitas()
+        {
+            return View(_db.Citas.ToList());
         }
     }
 }

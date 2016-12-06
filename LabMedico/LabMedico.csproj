@@ -471,6 +471,7 @@
     <Content Include="Views\Zonas\Details.cshtml" />
     <Content Include="Views\Zonas\Edit.cshtml" />
     <Content Include="Views\Zonas\Index.cshtml" />
+    <Content Include="Views\Citas\ProcesaCitas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
