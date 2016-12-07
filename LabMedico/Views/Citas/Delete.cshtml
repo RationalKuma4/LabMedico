@@ -1,13 +1,13 @@
 ﻿@model LabMedico.Models.Cita
 
 @{
-    ViewBag.Title = "Eliminar";
+    ViewBag.Title = "Cancelar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>@ViewBag.Title</h2>
 
-<h3>¿Esta seguro que desea eliminarla?</h3>
+<h3>¿Esta seguro que desea cancerla la cita?</h3>
 <div>
     <h4>Cita</h4>
     <hr />
@@ -62,7 +62,8 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">

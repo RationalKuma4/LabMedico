@@ -3,6 +3,10 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using LabMedico.Models;
+using Microsoft.Reporting.WebForms;
+using LabMedico.ReportRepository;
+using System;
+using System.Net.Mime;
 
 namespace LabMedico.Controllers
 {
@@ -127,6 +131,46 @@ namespace LabMedico.Controllers
                 _db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public FileResult ReportexSucursal(int id)
+        {
+            using (var local = new LocalReport())
+            {
+                var historicoInfo = (new HistoricosRepository()).HistoricoxSucursal(id);
+                local.ReportPath = "Reports\\HistoricoxSucursal.rdlc";
+                local.DisplayName = "HistoricoxSucursal";
+                local.DataSources.Add(new ReportDataSource("Historico", historicoInfo));
+                var tituloParameter = new ReportParameter
+                {
+                    Name = "Titulo",
+                    Values = { "Informe Historico por Sucursal" }
+                };
+                local.SetParameters(tituloParameter);
+                local.Refresh();
+                var reporte = local.Render("pdf");
+                return File(reporte, MediaTypeNames.Application.Octet, "HistoricoxSucursal" + DateTime.Now.ToShortDateString() + ".pdf");
+            }
+        }
+
+        public FileResult ReporteAnual()
+        {
+            using (var local = new LocalReport())
+            {
+                var historicoInfo = (new HistoricosRepository()).HistoricoAnual();
+                local.ReportPath = "Reports\\HistoricoxSucursal.rdlc";
+                local.DisplayName = "HistoricoxSucursal";
+                local.DataSources.Add(new ReportDataSource("Historico", historicoInfo));
+                var tituloParameter = new ReportParameter
+                {
+                    Name = "Titulo",
+                    Values = { "Informe Historico Anual" }
+                };
+                local.SetParameters(tituloParameter);
+                local.Refresh();
+                var reporte = local.Render("pdf");
+                return File(reporte, MediaTypeNames.Application.Octet, "HistoricoxSucursal" + DateTime.Now.ToShortDateString() + ".pdf");
+            }
         }
     }
 }

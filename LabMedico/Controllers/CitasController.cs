@@ -22,8 +22,24 @@ namespace LabMedico.Controllers
         // GET: Citas
         public ActionResult Index()
         {
-            var citas = _db.Citas.Include(c => c.Analisis).Include(c => c.Clientes).Include(c => c.Usuarios);
-            return View(citas.ToList());
+            var sucursalId = _db.Users
+                .Where(u => u.UserName.Equals(User.Identity.Name))
+                .FirstOrDefault()
+                .SucursalId;
+
+            var citas = _db.Citas
+                .Include(c => c.Analisis)
+                .Include(c => c.Clientes)
+                .Include(c => c.Usuarios);
+
+            var result =
+                from c in citas
+                join u in _db.Users on c.Id equals u.Id
+                where u.SucursalId == sucursalId
+                && c.Estatus.Equals("Act")
+                select c;
+
+            return View(result.ToList());
         }
 
         // GET: Citas/Details/5
@@ -207,26 +223,46 @@ namespace LabMedico.Controllers
         [HttpGet]
         public FileResult PrintCita(int id = 0)
         {
-            if (id > 0)
+            using (var local = new LocalReport())
             {
-                using (var local = new LocalReport())
-                {
-                    var citaInfo = (new CItasRepository()).RegresaNota(id);
-                    local.ReportPath = "Reports\\NotaEmision.rdlc";
-                    local.DisplayName = "Cita";
-                    local.DataSources.Add(new ReportDataSource("CItaVM", citaInfo));
-                    local.Refresh();
-                    var reporte = local.Render("pdf");
-                    return File(reporte, System.Net.Mime.MediaTypeNames.Application.Octet, "NotaCliente" + id.ToString() + ".pdf");
-                }
+                var citaInfo = (new CItasRepository()).RegresaNota(id);
+                local.ReportPath = "Reports\\NotaEmision.rdlc";
+                local.DisplayName = "Cita";
+                local.DataSources.Add(new ReportDataSource("CItaVM", citaInfo));
+                local.Refresh();
+                var reporte = local.Render("pdf");
+                return File(reporte, System.Net.Mime.MediaTypeNames.Application.Octet, "NotaCliente" + id.ToString() + ".pdf");
             }
-            return null;
         }
 
         [Authorize(Roles = "Administrador")]
         public ActionResult ProcesaCitas()
         {
-            return View(_db.Citas.ToList());
+            return View(_db.Citas.Where(c => c.Estatus.Equals("Act")).ToList());
         }
+
+        public ActionResult RealizaProceso()
+        {
+            var citasProcesadas = _db.Citas
+                .Where(c => c.Estatus.Equals("Act"))
+                .ToList();
+
+            foreach (var item in citasProcesadas)
+            {
+                item.Estatus = "Pro";
+                _db.Entry(item).State = EntityState.Modified;
+
+                var historico = new Historico
+                {
+                    CitaId = item.CitaId,
+                    FechaRegistro = DateTime.Now,
+                    Monto = item.Monto
+                };
+                _db.Historicoes.Add(historico);
+                _db.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+
     }
 }

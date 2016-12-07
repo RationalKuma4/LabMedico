@@ -55,12 +55,12 @@
                     @Html.DisplayFor(modelItem => item.Estatus)
                 </td>*@
             <td>
-                @Html.ActionLink("Edita", "Edit", new { id = item.CitaId }) |
+                @*@Html.ActionLink("Edita", "Edit", new { id = item.CitaId }) |*@
                 @Html.ActionLink("Detalles", "Details", new { id = item.CitaId }) |
-                @Html.ActionLink("Borrar", "Delete", new { id = item.CitaId }) |
+                @Html.ActionLink("Cancelar", "Delete", new { id = item.CitaId }) |
                 @Html.ActionLink("Nota", "PrintCita", new { id = item.CitaId })
-        </td>
-    </tr>
+            </td>
+        </tr>
     }
 
 </table>

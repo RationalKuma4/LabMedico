@@ -8,12 +8,12 @@
 <h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Registrar", "Create")
+    @*@Html.ActionLink("Registrar", "Create")*@
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Citas.HoraAplicacion)
+            @Html.DisplayNameFor(model => model.Citas.Usuarios.SucursalId)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.FechaRegistro)
@@ -24,23 +24,33 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Citas.Usuarios.SucursalId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaRegistro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Monto)
+            </td>
+            @*<td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.HistoricoId }) |
+                    @Html.ActionLink("Detalle", "Details", new { id = item.HistoricoId }) |
+                    @Html.ActionLink("Borrar", "Delete", new { id = item.HistoricoId })
+                </td>*@
+        </tr>
+    }
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Citas.HoraAplicacion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FechaRegistro)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Monto)
-        </td>
-        <td>
-            @Html.ActionLink("Editar", "Edit", new { id=item.HistoricoId }) |
-            @Html.ActionLink("Detalle", "Details", new { id=item.HistoricoId }) |
-            @Html.ActionLink("Borrar", "Delete", new { id=item.HistoricoId })
-        </td>
+        <th colspan="2">
+            Informes
+        </th>
     </tr>
-}
+    <tr>
+        <td>@Html.ActionLink("Historicos Sucursal", "RealizaProceso", "Clientes", htmlAttributes: new { @class = "btn btn-success" })</td>
+        <td>@Html.ActionLink("Historicos Anual", "ReporteAnual", "Historicos", htmlAttributes: new { @class = "btn btn-success" })</td>
+    </tr>
 
 </table>

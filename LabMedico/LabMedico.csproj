@@ -208,6 +208,7 @@
       <DependentUpon>201612012012116_NombreCompleto.cs</DependentUpon>
     </Compile>
     <Compile Include="ReportRepository\CItasRepository.cs" />
+    <Compile Include="ReportRepository\HistoricosRepository.cs" />
     <Compile Include="Reports\LabMedicoDB3MainDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -244,6 +245,7 @@
     <Compile Include="ViewModels\AccountViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="ViewModels\CitaEmisionViewModel.cs" />
+    <Compile Include="ViewModels\HistoricoSucursalViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels\ChangePasswordViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels\IndexViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels\ManageLoginsViewModel.cs" />
@@ -489,6 +491,7 @@
     <EmbeddedResource Include="Migrations\201612012012116_NombreCompleto.resx">
       <DependentUpon>201612012012116_NombreCompleto.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\HistoricoxSucursal.rdlc" />
     <EmbeddedResource Include="Reports\NotaEmision.rdlc" />
   </ItemGroup>
   <PropertyGroup>
