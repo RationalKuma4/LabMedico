@@ -158,22 +158,29 @@ namespace LabMedico.Controllers
 
             if (tecnicorMenor != null)
             {
-                var citasTecnico =
-                    from ct in _db.TecnicoCitas
-                    join c in _db.Citas on ct.CitaId equals c.CitaId
-                    where c.Estatus.Equals("Act")
-                    && c.FechaAplicacion == cita.FechaAplicacion
-                    && ct.TecnicoId == tecnicorMenor.TecnicoId
-                    select c;
-                foreach (var item in citasTecnico.ToList())
+                if (tecnicos.Any(t => t.TecnicoId == tecnicorMenor.TecnicoId))
                 {
-                    if (int.Parse(item.HoraAplicacion) == int.Parse(cita.HoraAplicacion))
+                    var citasTecnico =
+                        from ct in _db.TecnicoCitas
+                        join c in _db.Citas on ct.CitaId equals c.CitaId
+                        where c.Estatus.Equals("Act")
+                        && c.FechaAplicacion == cita.FechaAplicacion
+                        && ct.TecnicoId == tecnicorMenor.TecnicoId
+                        select c;
+                    foreach (var item in citasTecnico.ToList())
                     {
-                        cita.HoraAplicacion = (int.Parse(cita.HoraAplicacion) + 1).ToString();
-                        break;
+                        if (int.Parse(item.HoraAplicacion) == int.Parse(cita.HoraAplicacion))
+                        {
+                            cita.HoraAplicacion = (int.Parse(cita.HoraAplicacion) + 1).ToString();
+                            break;
+                        }
                     }
+                    return tecnicorMenor.TecnicoId;
                 }
-                return tecnicorMenor.TecnicoId;
+                else
+                {
+                    return tecnicos.FirstOrDefault().TecnicoId;
+                }
             }
             else
             {
