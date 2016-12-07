@@ -10,6 +10,7 @@ using System.Net.Mime;
 
 namespace LabMedico.Controllers
 {
+    [Authorize(Roles = "Administrador")]
     public class HistoricosController : Controller
     {
         private LaboratorioDbContext _db = new LaboratorioDbContext();
@@ -22,6 +23,7 @@ namespace LabMedico.Controllers
         public ActionResult Index()
         {
             var historicoes = _db.Historicoes.Include(h => h.Citas);
+            ViewBag.Sucursales = new SelectList(_db.Sucursals, "SucursalId", "Nombre");
             return View(historicoes.ToList());
         }
 
@@ -169,7 +171,7 @@ namespace LabMedico.Controllers
                 local.SetParameters(tituloParameter);
                 local.Refresh();
                 var reporte = local.Render("pdf");
-                return File(reporte, MediaTypeNames.Application.Octet, "HistoricoxSucursal" + DateTime.Now.ToShortDateString() + ".pdf");
+                return File(reporte, MediaTypeNames.Application.Octet, "HistoricoxAnual" + DateTime.Now.ToShortDateString() + ".pdf");
             }
         }
     }

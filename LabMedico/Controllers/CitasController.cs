@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using LabMedico.Models;
 using Microsoft.Reporting.WebForms;
 using LabMedico.ReportRepository;
+using System.Collections.Generic;
 
 namespace LabMedico.Controllers
 {
@@ -105,6 +106,7 @@ namespace LabMedico.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "CitaId,FechaRegistro,FechaEntrega,FechaAplicacion,HoraAplicacion,Id,ClienteId,AnalisisId,Estatus,Monto")] Cita cita)
         {
+            var tecniocoId = VerficaHorario(cita);
             cita.FechaRegistro = DateTime.Today;
             cita.FechaEntrega = DateTime.Today.AddDays(5);
             cita.Id = _db.Users.Where(u => u.UserName.Equals(User.Identity.Name)).ToList().FirstOrDefault().Id;
@@ -117,7 +119,7 @@ namespace LabMedico.Controllers
             {
                 _db.Citas.Add(cita);
                 _db.SaveChanges();
-                InsertTecnicoCita(cita);
+                InsertTecnicoCita(tecniocoId, cita.CitaId);
                 return RedirectToAction("Index");
             }
 
@@ -127,18 +129,63 @@ namespace LabMedico.Controllers
             return View(cita);
         }
 
-        private void InsertTecnicoCita(Cita cita)
+        private int VerficaHorario(Cita cita)
         {
-            var userSucursal = _db.Users.Where(u => u.Usuario.Equals(User.Identity.Name))
-                .FirstOrDefault();
-            var estudioId = _db.Analisis.Where(a => a.AnalisisId == cita.AnalisisId).FirstOrDefault().EstudioId;
-            var tecnicoId = _db.Tecnicoes.Where(t => t.EstudioId == estudioId && t.SucursalId == userSucursal.SucursalId)
+            var sucursalId = _db.Users
+                .Where(u => u.UserName.Equals(User.Identity.Name))
                 .FirstOrDefault()
-                .TecnicoId;
+                .Sucursales.SucursalId;
 
+            var estudioId = _db.Analisis
+                .Where(e => e.AnalisisId == cita.AnalisisId)
+                .FirstOrDefault()
+                .Estudios.EstudioId;
+
+            var tecnicos = _db.Tecnicoes
+                .Where(t => t.SucursalId == sucursalId && t.EstudioId == estudioId)
+                .ToList();
+
+            var tecnicorMenor =
+                _db.TecnicoCitas
+                .GroupBy(t => t.TecnicoId)
+                .Select(x => new
+                {
+                    TecnicoId = x.FirstOrDefault().TecnicoId,
+                    Citas = x.Count()
+                })
+                .OrderBy(o => o.Citas)
+                .FirstOrDefault();
+
+            if (tecnicorMenor != null)
+            {
+                var citasTecnico =
+                    from ct in _db.TecnicoCitas
+                    join c in _db.Citas on ct.CitaId equals c.CitaId
+                    where c.Estatus.Equals("Act")
+                    && c.FechaAplicacion == cita.FechaAplicacion
+                    && ct.TecnicoId == tecnicorMenor.TecnicoId
+                    select c;
+                foreach (var item in citasTecnico.ToList())
+                {
+                    if (int.Parse(item.HoraAplicacion) == int.Parse(cita.HoraAplicacion))
+                    {
+                        cita.HoraAplicacion = (int.Parse(cita.HoraAplicacion) + 1).ToString();
+                        break;
+                    }
+                }
+                return tecnicorMenor.TecnicoId;
+            }
+            else
+            {
+                return tecnicos.FirstOrDefault().TecnicoId;
+            }
+        }
+
+        private void InsertTecnicoCita(int tecnicoId, int citaId)
+        {
             var tecnicoCitas = new TecnicoCitas
             {
-                CitaId = cita.CitaId,
+                CitaId = citaId,
                 TecnicoId = tecnicoId
             };
 
@@ -154,14 +201,13 @@ namespace LabMedico.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Cita cita = _db.Citas.Find(id);
-            cita.FechaAplicacion.ToString();
             if (cita == null)
             {
                 return HttpNotFound();
             }
             ViewBag.AnalisisId = new SelectList(_db.Analisis, "AnalisisId", "Nombre", cita.AnalisisId);
             ViewBag.ClienteId = new SelectList(_db.Clientes, "ClienteId", "Nombre", cita.ClienteId);
-            ViewBag.Estatus = Constantes.estatus;
+            ViewBag.Estatus = new SelectList(Constantes.estatus, "Text", "Value");
             //ViewBag.Id = new SelectList(_db.LaboratorioUsers, "Id", "Usuario", cita.Id);
             return View(cita);
         }
@@ -207,6 +253,12 @@ namespace LabMedico.Controllers
         {
             Cita cita = _db.Citas.Find(id);
             _db.Citas.Remove(cita);
+
+            TecnicoCitas tecnicoCitas = _db.TecnicoCitas
+                .Where(t => t.CitaId == id)
+                .FirstOrDefault();
+            _db.TecnicoCitas.Remove(tecnicoCitas);
+
             _db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -238,16 +290,40 @@ namespace LabMedico.Controllers
         [Authorize(Roles = "Administrador")]
         public ActionResult ProcesaCitas()
         {
-            return View(_db.Citas.Where(c => c.Estatus.Equals("Act")).ToList());
+            var today = DateTime.Today.ToShortDateString();
+            var citas = _db.Citas.Where(c => c.Estatus.Equals("Act")).ToList();
+            var valores = new List<Cita>();
+            foreach (var item in citas)
+            {
+                if (item.FechaAplicacion.Value.ToShortDateString().Equals(today))
+                {
+                    valores.Add(item);
+                }
+            }
+
+            return View(valores);
+            //return View(_db.Citas.Where(c => c.Estatus.Equals("Act") && c.FechaAplicacion == DateTime.Now).ToList());
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult RealizaProceso()
         {
+            var today = DateTime.Today.ToShortDateString();
+
             var citasProcesadas = _db.Citas
                 .Where(c => c.Estatus.Equals("Act"))
                 .ToList();
 
+            var valores = new List<Cita>();
             foreach (var item in citasProcesadas)
+            {
+                if (item.FechaAplicacion.Value.ToShortDateString().Equals(today))
+                {
+                    valores.Add(item);
+                }
+            }
+
+            foreach (var item in valores)
             {
                 item.Estatus = "Pro";
                 _db.Entry(item).State = EntityState.Modified;
@@ -261,7 +337,7 @@ namespace LabMedico.Controllers
                 _db.Historicoes.Add(historico);
                 _db.SaveChanges();
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("ProcesaCitas");
         }
 
     }

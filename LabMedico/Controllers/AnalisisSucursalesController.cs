@@ -12,10 +12,13 @@ namespace LabMedico.Controllers
         private LaboratorioDbContext db = new LaboratorioDbContext();
 
         // GET: AnalisisSucursales
-        public ActionResult Index()
+        public ActionResult Index(string searchString)
         {
             var analisisSucursals = db.AnalisisSucursals.Include(a => a.Analisis).Include(a => a.Sucursales);
-            return View(analisisSucursals.ToList());
+            if (!string.IsNullOrWhiteSpace(searchString))
+                return View(analisisSucursals.Where(a => a.Sucursales.Nombre.Contains(searchString)).ToList());
+            else
+                return View(analisisSucursals.ToList());
         }
 
         // GET: AnalisisSucursales/Details/5
