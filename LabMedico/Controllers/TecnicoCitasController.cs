@@ -46,8 +46,6 @@ namespace LabMedico.Controllers
         }
 
         // POST: TecnicoCitas/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "TecnicoCitasId,TecnicoId,CitaId")] TecnicoCitas tecnicoCitas)
@@ -81,8 +79,6 @@ namespace LabMedico.Controllers
         }
 
         // POST: TecnicoCitas/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "TecnicoCitasId,TecnicoId,CitaId")] TecnicoCitas tecnicoCitas)

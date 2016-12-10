@@ -53,8 +53,6 @@ namespace LabMedico.Controllers
         }
 
         // POST: Sucursales/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "SucursalId,Nombre,Calle,NumeroInterior,NumeroExterior,Colonia,DelegacionMunicipio,CodigoPostal,Telefono,Horario,Estatus,ZonaId")] Sucursal sucursal)
@@ -87,8 +85,6 @@ namespace LabMedico.Controllers
         }
 
         // POST: Sucursales/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "SucursalId,Nombre,Calle,NumeroInterior,NumeroExterior,Colonia,DelegacionMunicipio,CodigoPostal,Telefono,Horario,Estatus,ZonaId")] Sucursal sucursal)

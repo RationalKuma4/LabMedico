@@ -212,8 +212,7 @@ namespace LabMedico.Controllers
                 }
                 AddErrors(result);
             }
-
-            // Si llegamos a este punto, es que se ha producido un error, volvemos a mostrar el formulario
+            
             return View(model);
         }
 
@@ -246,7 +245,6 @@ namespace LabMedico.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LinkLogin(string provider)
         {
-            // Solicitar la redirección al proveedor de inicio de sesión externo para vincular un inicio de sesión para el usuario actual
             return new AccountController.ChallengeResult(provider, Url.Action("LinkLoginCallback", "Manage"), User.Identity.GetUserId());
         }
 
@@ -275,7 +273,6 @@ namespace LabMedico.Controllers
         }
 
         #region Aplicaciones auxiliares
-        // Se usan para protección XSRF al agregar inicios de sesión externos
         private const string XsrfKey = "XsrfId";
 
         private IAuthenticationManager AuthenticationManager

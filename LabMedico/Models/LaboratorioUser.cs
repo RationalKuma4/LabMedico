@@ -7,7 +7,6 @@ using System.Collections.Generic;
 
 namespace LabMedico.Models
 {
-    // Puede agregar datos del perfil del usuario agregando más propiedades a la clase ApplicationUser. Para más información, visite http://go.microsoft.com/fwlink/?LinkID=317594.
     public class LaboratorioUser : IdentityUser<int, CustomUserLogin, CustomUserRole, CustomUserClaim>
     {
         public string Usuario { get; set; }
@@ -33,9 +32,7 @@ namespace LabMedico.Models
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<LaboratorioUser, int> manager)
         {
-            // Tenga en cuenta que el valor de authenticationType debe coincidir con el definido en CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
-            // Agregar aquí notificaciones personalizadas de usuario
             return userIdentity;
         }
     }
